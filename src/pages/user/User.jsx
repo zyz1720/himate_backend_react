@@ -467,14 +467,14 @@ const UserList = () => {
         <ProFormText
           name="user_name"
           label={t('user.user_name')}
-          placeholder={t('code_generator.please_enter', {
+          placeholder={t('table.please_enter', {
             name: t('user.user_name'),
           })}
           width="xl"
           rules={[
             {
               required: true,
-              message: t('code_generator.please_enter', {
+              message: t('table.please_enter', {
                 name: t('user.user_name'),
               }),
             },
@@ -486,7 +486,7 @@ const UserList = () => {
           rules={[
             {
               required: true,
-              message: t('code_generator.please_upload', {
+              message: t('table.please_upload', {
                 name: t('user.user_avatar'),
               }),
             },
@@ -503,7 +503,7 @@ const UserList = () => {
         <ProFormSelect
           name="sex"
           label={t('user.sex')}
-          placeholder={t('code_generator.please_select', {
+          placeholder={t('table.please_select', {
             name: t('user.sex'),
           })}
           width="xl"
@@ -511,7 +511,7 @@ const UserList = () => {
           rules={[
             {
               required: true,
-              message: t('code_generator.please_select', {
+              message: t('table.please_select', {
                 name: t('user.sex'),
               }),
             },
@@ -520,14 +520,14 @@ const UserList = () => {
         <ProFormDatePicker
           name="birthday"
           label={t('user.birthday')}
-          placeholder={t('code_generator.please_select', {
+          placeholder={t('table.please_select', {
             name: t('user.birthday'),
           })}
           width="xl"
           rules={[
             {
               required: false,
-              message: t('code_generator.please_select', {
+              message: t('table.please_select', {
                 name: t('user.birthday'),
               }),
             },
@@ -536,14 +536,14 @@ const UserList = () => {
         <ProFormText
           name="account"
           label={t('user.account')}
-          placeholder={t('code_generator.please_enter', {
+          placeholder={t('table.please_enter', {
             name: t('user.account'),
           })}
           width="xl"
           rules={[
             {
               required: true,
-              message: t('code_generator.please_enter', {
+              message: t('table.please_enter', {
                 name: t('user.account'),
               }),
             },
@@ -552,14 +552,14 @@ const UserList = () => {
         <ProFormText
           name="self_account"
           label={t('user.self_account')}
-          placeholder={t('code_generator.please_enter', {
+          placeholder={t('table.please_enter', {
             name: t('user.self_account'),
           })}
           width="xl"
           rules={[
             {
               required: true,
-              message: t('code_generator.please_enter', {
+              message: t('table.please_enter', {
                 name: t('user.self_account'),
               }),
             },
@@ -568,7 +568,7 @@ const UserList = () => {
         <ProFormSelect
           name="user_role"
           label={t('user.user_role')}
-          placeholder={t('code_generator.please_select', {
+          placeholder={t('table.please_select', {
             name: t('user.user_role'),
           })}
           width="xl"
@@ -576,7 +576,7 @@ const UserList = () => {
           rules={[
             {
               required: true,
-              message: t('code_generator.please_select', {
+              message: t('table.please_select', {
                 name: t('user.user_role'),
               }),
             },
@@ -585,7 +585,7 @@ const UserList = () => {
         <ProFormSelect
           name="user_status"
           label={t('user.user_status')}
-          placeholder={t('code_generator.please_select', {
+          placeholder={t('table.please_select', {
             name: t('user.user_status'),
           })}
           width="xl"
@@ -593,7 +593,7 @@ const UserList = () => {
           rules={[
             {
               required: true,
-              message: t('code_generator.please_select', {
+              message: t('table.please_select', {
                 name: t('user.user_status'),
               }),
             },

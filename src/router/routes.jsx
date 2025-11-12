@@ -77,37 +77,10 @@ export default [
     ],
   },
   {
-    path: '/example',
-    key: 'example',
-    name: i18n.t('routes.example'),
-    icon: <AiFillBook />,
-    redirect: '/example/table',
-    routes: [
-      {
-        path: '/example/table',
-        key: 'table',
-        name: i18n.t('routes.table'),
-        element: React.createElement(
-          React.lazy(() => import('@/pages/example/Table')),
-        ),
-        icon: <AiOutlineTable />,
-      },
-    ],
-  },
-  {
     path: '/user',
     key: 'user',
     name: i18n.t('user.menu_name'),
     element: React.createElement(React.lazy(() => import('@/pages/user/User'))),
     icon: <BiSolidUser />,
-  },
-  {
-    path: '/group',
-    key: 'group',
-    name: i18n.t('group.menu_name'),
-    element: React.createElement(
-      React.lazy(() => import('@/pages/group/Group')),
-    ),
-    icon: <BiSolidGroup />,
   },
 ];

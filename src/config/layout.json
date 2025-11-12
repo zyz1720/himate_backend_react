@@ -4,8 +4,6 @@
     "/ability/code_generator",
     "/ability/json_editor",
     "/ability/icon_selector",
-    "/example/table",
-    "/group",
     "/user"
   ],
   "colorList": [
@@ -77,8 +75,8 @@
   },
   "headerConfig": {
     "logo": "/logo.png",
-    "title": "PROCOMP Backend",
-    "subTitle": "快速搭建后台管理系统",
+    "title": "Himate后台管理系统",
+    "subTitle": "Himate backend management system",
     "appList": [
       {
         "icon": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
