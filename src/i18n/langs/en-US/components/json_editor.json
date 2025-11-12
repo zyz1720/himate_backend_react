@@ -1,0 +1,18 @@
+{
+  "title": "JSON Editor",
+  "editor_tab": "Editor",
+  "preview_tab": "Preview",
+  "placeholder": "Please enter JSON data",
+  "format_tooltip": "Format JSON",
+  "export_json_tooltip": "Export as JSON file",
+  "export_js_tooltip": "Export as JS file",
+  "format_success": "JSON formatted successfully",
+  "format_error": "Invalid JSON format, cannot format",
+  "export_json_success": "JSON file exported successfully",
+  "export_json_error": "Invalid JSON format, cannot export",
+  "export_js_success": "JS file exported successfully",
+  "export_js_error": "Invalid JSON format, cannot export as JS file",
+  "invalid_json": "Invalid JSON format",
+  "invalid_json_check": "Invalid JSON format, please check your input",
+  "no_data": "No data available"
+}

@@ -1,0 +1,123 @@
+{
+  "routesConfig": [
+    "/welcome",
+    "/ability/code_generator",
+    "/ability/json_editor",
+    "/ability/icon_selector",
+    "/example/table",
+    "/group",
+    "/user"
+  ],
+  "colorList": [
+    {
+      "key": "primary",
+      "color": "#b37feb",
+      "title": "主题色"
+    },
+    {
+      "key": "green",
+      "color": "#52c41a",
+      "title": "绿色"
+    },
+    {
+      "key": "blue",
+      "color": "#1890ff",
+      "title": "蓝色"
+    },
+    {
+      "key": "purple",
+      "color": "#722ed1",
+      "title": "紫色"
+    },
+    {
+      "key": "orange",
+      "color": "#fa8c16",
+      "title": "橙色"
+    },
+    {
+      "key": "geekblue",
+      "color": "#2f54eb",
+      "title": "极客蓝"
+    },
+    {
+      "key": "gold",
+      "color": "#faad14",
+      "title": "金色"
+    },
+    {
+      "key": "lime",
+      "color": "#a0d911",
+      "title": "酸橙色"
+    },
+    {
+      "key": "volcano",
+      "color": "#f04864",
+      "title": "火山红"
+    },
+    {
+      "key": "pink",
+      "color": "#f5222d",
+      "title": "粉红色"
+    },
+    {
+      "key": "cyan",
+      "color": "#13c2c2",
+      "title": "青色"
+    }
+  ],
+  "settingConfig": {
+    "isShowSettingDrawer": true,
+    "fixSiderbar": true,
+    "layout": "mix",
+    "splitMenus": false,
+    "navTheme": "light",
+    "contentWidth": "Fluid",
+    "colorPrimary": "#b37feb",
+    "siderMenuType": "sub"
+  },
+  "headerConfig": {
+    "logo": "/logo.png",
+    "title": "PROCOMP Backend",
+    "subTitle": "快速搭建后台管理系统",
+    "appList": [
+      {
+        "icon": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+        "title": "Ant Design",
+        "desc": "杭州市较知名的 UI 设计语言",
+        "url": "https://ant.design",
+        "target": "_blank"
+      },
+      {
+        "icon": "https://gw.alipayobjects.com/zos/antfincdn/upvrAjAPQX/Logo_Tech%252520UI.svg",
+        "title": "Pro Components",
+        "desc": "专业级 UI 组件库",
+        "url": "https://procomponents.ant.design/",
+        "target": "_blank"
+      },
+      {
+        "icon": "https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png",
+        "title": "AntV",
+        "desc": "蚂蚁集团全新一代数据可视化解决方案",
+        "url": "https://antv.vision/",
+        "target": "_blank"
+      }
+    ]
+  },
+  "footerConfig": {
+    "copyright": "2025 PROCOMP Backend",
+    "links": [
+      {
+        "key": "github",
+        "title": "GitHub",
+        "url": "https://github.com/ant-design/pro-components",
+        "target": "_blank"
+      },
+      {
+        "key": "ant-design",
+        "title": "Ant Design",
+        "url": "https://ant.design",
+        "target": "_blank"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "title": "JSON编辑器",
+  "editor_tab": "编辑器",
+  "preview_tab": "预览",
+  "placeholder": "请输入JSON数据",
+  "format_tooltip": "格式化JSON",
+  "export_json_tooltip": "导出为JSON文件",
+  "export_js_tooltip": "导出为JS文件",
+  "format_success": "JSON格式化成功",
+  "format_error": "JSON格式错误，无法格式化",
+  "export_json_success": "JSON文件导出成功",
+  "export_json_error": "JSON格式错误，无法导出",
+  "export_js_success": "JS文件导出成功",
+  "export_js_error": "JSON格式错误，无法导出为JS文件",
+  "invalid_json": "JSON格式错误",
+  "invalid_json_check": "JSON格式错误，请检查输入",
+  "no_data": "暂无数据"
+}

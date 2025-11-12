@@ -1,0 +1,156 @@
+@layer utilities {
+
+    /* 基础滚动条样式 */
+    .scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.gray.300') theme('colors.gray.100');
+    }
+
+    /* 深色模式基础滚动条样式 */
+    [data-theme=dark] .scrollbar {
+        scrollbar-color: theme('colors.gray.700') theme('colors.gray.900');
+    }
+
+    /* Webkit 浏览器（Chrome、Safari 等）的滚动条样式 */
+    .scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    .scrollbar::-webkit-scrollbar-track {
+        background: theme('colors.gray.100');
+        border-radius: 3px;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb {
+        background: theme('colors.gray.200');
+        border-radius: 3px;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.gray.300');
+    }
+
+    /* 深色模式 Webkit 滚动条样式 */
+    [data-theme=dark] .scrollbar::-webkit-scrollbar-track {
+        background: theme('colors.gray.900');
+    }
+
+    [data-theme=dark] .scrollbar::-webkit-scrollbar-thumb {
+        background: theme('colors.gray.800');
+    }
+
+    [data-theme=dark] .scrollbar::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.gray.700');
+    }
+
+    /* 隐藏滚动条但保持滚动功能 */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+
+    /* 基础容器滚动条组合类 */
+    .scroll-container {
+        overflow: auto;
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.gray.300') theme('colors.gray.100');
+        border-radius: 0.5rem;
+        background-color: theme('colors.gray.50');
+        border: 1px solid theme('colors.gray.200');
+        padding: 0.5rem;
+    }
+
+    /* 深色模式基础容器滚动条样式 */
+    [data-theme=dark] .scroll-container {
+        scrollbar-color: theme('colors.gray.700') theme('colors.gray.900');
+        background-color: theme('colors.gray.900');
+        border: 1px solid theme('colors.gray.800');
+    }
+
+
+    .scroll-container::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .scroll-container::-webkit-scrollbar-track {
+        background: theme('colors.gray.100');
+        border-radius: 4px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+        background: theme('colors.gray.200');
+        border-radius: 4px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.gray.300');
+    }
+
+    /* 深色模式 Webkit 容器滚动条样式 */
+    [data-theme=dark] .scroll-container::-webkit-scrollbar-track {
+        background: theme('colors.gray.900');
+    }
+
+    [data-theme=dark] .scroll-container::-webkit-scrollbar-thumb {
+        background: theme('colors.gray.700');
+    }
+
+    [data-theme=dark] .scroll-container::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.gray.600');
+    }
+
+
+    /* 紧凑样式容器滚动条 */
+    .scroll-container-compact {
+        overflow: auto;
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.gray.300') transparent;
+        border-radius: 0.25rem;
+        background-color: transparent;
+        border: none;
+        padding: 0.25rem;
+    }
+
+    /* 深色模式紧凑容器滚动条样式 */
+    [data-theme=dark] .scroll-container-compact {
+        scrollbar-color: theme('colors.gray.700') transparent;
+    }
+
+
+    .scroll-container-compact::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    .scroll-container-compact::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 2px;
+    }
+
+    .scroll-container-compact::-webkit-scrollbar-thumb {
+        background: theme('colors.gray.200');
+        border-radius: 2px;
+    }
+
+    .scroll-container-compact::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.gray.300');
+    }
+
+    /* 深色模式 Webkit 紧凑容器滚动条样式 */
+    [data-theme=dark] .scroll-container-compact::-webkit-scrollbar-thumb {
+        background: theme('colors.gray.800');
+    }
+
+    [data-theme=dark] .scroll-container-compact::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.gray.700');
+    }
+
+
+}

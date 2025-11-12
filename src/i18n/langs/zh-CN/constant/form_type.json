@@ -1,0 +1,22 @@
+{
+    "ProFormText": "文本输入框",
+    "ProFormDigit": "数字输入框",
+    "ProFormText.Password": "密码输入框",
+    "ProFormTextArea": "多行文本输入框",
+    "ProFormCaptcha": "验证码输入框",
+    "ProFormDatePicker": "日期选择器",
+    "ProFormDateTimePicker": "日期时间选择器",
+    "ProFormDateRangePicker": "日期范围选择器",
+    "ProFormDateTimeRangePicker": "日期时间范围选择器",
+    "ProFormSelect": "下拉选择器",
+    "ProFormTreeSelect": "树形选择器",
+    "ProFormCheckbox": "多选框组",
+    "ProFormRadio.Group": "单选框组",
+    "ProFormSlider": "滑动输入条",
+    "ProFormSwitch": "开关切换器",
+    "ProFormUploadButton": "按钮上传",
+    "ProFormUploadDragger": "拖拽上传",
+    "ProFormMoney": "金额输入框",
+    "ProFormSegmented": "分段控制器",
+    "RichText": "富文本编辑器"
+}

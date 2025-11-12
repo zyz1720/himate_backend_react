@@ -1,0 +1,19 @@
+{
+  "action": "Action",
+  "add": "Add {{name}}",
+  "delete": "Delete {{name}}",
+  "edit": "Edit {{name}}",
+  "details": "{{name}} Details",
+  "view_details": "View Details",
+  "delete_tips": "Are you sure you want to delete this {{name}}?",
+  "delete_success": "Deletion successful!",
+  "delete_error": "Deletion error!",
+  "action_error": "Operation failed",
+  "batch_delete": "Batch Delete",
+  "batch_delete_tips": "Are you sure you want to delete the selected {{name}}?",
+  "get_details_error": "Failed to get {{name}} details!",
+  "invalid_format": "{{name}} format is invalid",
+  "please_enter": "Please enter {{name}}",
+  "please_select": "Please select {{name}}",
+  "please_upload": "Please upload {{name}}"
+}

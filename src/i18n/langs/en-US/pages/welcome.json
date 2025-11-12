@@ -1,0 +1,20 @@
+{
+  "text": "Welcome!",
+  "date": "Current time:",
+  "performanceMetrics": "Performance Metrics",
+  "performanceSubtitle": "Page loading and rendering performance indicators",
+  "firstPaint": "First Paint (ms)",
+  "firstPaintDesc": "Time when the browser first starts to render pixels",
+  "firstContentfulPaint": "First Contentful Paint (ms)",
+  "firstContentfulPaintDesc": "Time when the first content element is rendered",
+  "largestContentfulPaint": "Largest Contentful Paint (ms)",
+  "largestContentfulPaintDesc": "Time when the largest content element is rendered",
+  "domContentLoaded": "DOM Content Loaded (ms)",
+  "domContentLoadedDesc": "Time when DOM is fully loaded",
+  "loadTime": "Page Load Time (ms)",
+  "loadTimeDesc": "Time when the page is fully loaded",
+  "resourceLoadTime": "Avg. Resource Load Time (ms)",
+  "resourceLoadTimeDesc": "Average loading time of all resources",
+  "memoryUsage": "Memory Usage (%)",
+  "memoryUsageDesc": "Current JavaScript heap memory usage"
+}

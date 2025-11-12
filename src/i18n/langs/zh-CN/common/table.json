@@ -1,0 +1,19 @@
+{
+    "action": "操作",
+    "add": "添加{{name}}",
+    "delete": "删除{{name}}",
+    "edit": "编辑{{name}}",
+    "details": "{{name}}详情",
+    "view_details": "查看详情",
+    "delete_tips": "您确定要删除该条{{name}}吗？",
+    "delete_success": "删除成功！",
+    "delete_error": "删除出错！",
+    "action_error": "操作失败",
+    "batch_delete": "批量删除",
+    "batch_delete_tips": "您确定要删除选中的{{name}}吗？",
+    "get_details_error": "获取{{name}}详情失败！",
+    "invalid_format": "{{name}}格式不正确",
+    "please_enter": "请输入{{name}}",
+    "please_select": "请选择{{name}}",
+    "please_upload": "请上传{{name}}"
+}

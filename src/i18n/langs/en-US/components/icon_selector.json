@@ -1,0 +1,11 @@
+{
+    "library": "Icon Library",
+    "search_icon": "Search Icon",
+    "selected_icon": "Selected Icon",
+    "import_statement": "Import Statement",
+    "element": "Usage Element",
+    "loading": "Loading Icons...",
+    "copy_tooltip": "Copy to Clipboard",
+    "copy_success": "Copied to Clipboard",
+    "copy_failed": "Copy Failed"
+}

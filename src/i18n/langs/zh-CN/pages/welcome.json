@@ -1,0 +1,20 @@
+{
+  "text": "欢迎您！",
+  "date": "现在是：",
+  "performanceMetrics": "性能指标",
+  "performanceSubtitle": "页面加载和渲染性能指标",
+  "firstPaint": "首次绘制 (毫秒)",
+  "firstPaintDesc": "浏览器开始渲染像素的时间",
+  "firstContentfulPaint": "首次内容绘制 (毫秒)",
+  "firstContentfulPaintDesc": "第一个内容元素渲染的时间",
+  "largestContentfulPaint": "最大内容绘制 (毫秒)",
+  "largestContentfulPaintDesc": "最大内容元素渲染的时间",
+  "domContentLoaded": "DOM内容加载完成 (毫秒)",
+  "domContentLoadedDesc": "DOM完全加载的时间",
+  "loadTime": "页面加载时间 (毫秒)",
+  "loadTimeDesc": "页面完全加载的时间",
+  "resourceLoadTime": "平均资源加载时间 (毫秒)",
+  "resourceLoadTimeDesc": "所有资源的平均加载时间",
+  "memoryUsage": "内存使用率 (%)",
+  "memoryUsageDesc": "当前JavaScript堆内存使用情况"
+}

@@ -1,0 +1,22 @@
+{
+    "ProFormText": "Text Input",
+    "ProFormDigit": "Number Input",
+    "ProFormText.Password": "Password Input",
+    "ProFormTextArea": "Multiline Text Input",
+    "ProFormCaptcha": "Captcha Input",
+    "ProFormDatePicker": "Date Picker",
+    "ProFormDateTimePicker": "DateTime Picker",
+    "ProFormDateRangePicker": "Date Range Picker",
+    "ProFormDateTimeRangePicker": "DateTime Range Picker",
+    "ProFormSelect": "Dropdown Selector",
+    "ProFormTreeSelect": "Tree Selector",
+    "ProFormCheckbox": "Checkbox Group",
+    "ProFormRadio.Group": "Radio Button Group",
+    "ProFormSlider": "Slider Input",
+    "ProFormSwitch": "Switch Toggle",
+    "ProFormUploadButton": "Button Upload",
+    "ProFormUploadDragger": "Drag Upload",
+    "ProFormMoney": "Money Input",
+    "ProFormSegmented": "Segmented Control",
+    "RichText": "Rich Text Editor"
+}

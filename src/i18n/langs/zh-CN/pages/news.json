@@ -1,0 +1,8 @@
+{
+    "table_name": "新闻",
+    "keyword": "关键字",
+    "title": "新闻标题",
+    "content": "新闻内容",
+    "created_at": "创建时间",
+    "updated_at": "更新时间"
+}
