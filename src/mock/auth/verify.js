@@ -1,7 +1,7 @@
 export default [
   // 获取验证码
   {
-    url: '/mail/code',
+    url: '/email/code',
     method: 'get',
     response: ({ query }) => {
       console.log(' verifyCode', query);

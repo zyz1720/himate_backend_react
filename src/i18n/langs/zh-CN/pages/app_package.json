@@ -1,0 +1,15 @@
+{
+  "table_name": "App版本",
+  "menu_name": "App管理",
+  "id": "app包自增id",
+  "app_size": "应用大小",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间",
+  "app_name": "应用包名称",
+  "app_version": "应用版本",
+  "app_description": "应用描述",
+  "app_file_key": "文件路径"
+}

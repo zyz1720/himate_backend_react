@@ -28,11 +28,11 @@ import {
   ApiOkPageRes,
 } from 'src/common/response/api-response.decorator';
 import { Roles } from 'src/core/auth/decorators/roles.decorator';
-import { Role } from 'src/common/constants/base-enum.const';
+import { Role } from 'src/common/constants/database-enum.const';
 import { ${camelCaseName}Service } from './${endpoint}.service';
 import { Add${camelCaseName}Dto } from './dto/add-${endpoint}.dto';
 import { Update${camelCaseName}Dto } from './dto/update-${endpoint}.dto';
-import { FindAll${camelCaseName}Dto } from './dto/findall-${endpoint}.dto';
+import { FindAll${camelCaseName}Dto } from './dto/find-all-${endpoint}.dto';
 import { ${camelCaseName}Entity } from './entity/${endpoint}.entity';
 
 @ApiTags('${tableComment || tableName}管理')

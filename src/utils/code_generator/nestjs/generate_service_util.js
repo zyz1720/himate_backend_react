@@ -55,7 +55,7 @@ import { Repository } from 'typeorm';
 import { ${entityClass} } from './entity/${endpoint}.entity';
 import { Add${camelCaseName}Dto } from './dto/add-${endpoint}.dto';
 import { Update${camelCaseName}Dto } from './dto/update-${endpoint}.dto';
-import { FindAll${camelCaseName}Dto } from './dto/findall-${endpoint}.dto';
+import { FindAll${camelCaseName}Dto } from './dto/find-all-${endpoint}.dto';
 import { PageResponse, Response } from 'src/common/response/api-response.dto';
 import { I18nService } from 'nestjs-i18n';
 

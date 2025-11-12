@@ -3,10 +3,9 @@ import {
   AiFillExclamationCircle,
   AiFillTool,
   AiFillCode,
-  AiFillBook,
-  AiOutlineTable,
+  AiFillAndroid,
 } from 'react-icons/ai';
-import { BiSolidGroup, BiSolidUser } from 'react-icons/bi';
+import { BiSolidUser } from 'react-icons/bi';
 import i18n from 'i18next';
 import React from 'react';
 
@@ -82,5 +81,14 @@ export default [
     name: i18n.t('user.menu_name'),
     element: React.createElement(React.lazy(() => import('@/pages/user/User'))),
     icon: <BiSolidUser />,
+  },
+  {
+    path: '/app_package',
+    key: 'app_package',
+    name: i18n.t('app_package.menu_name'),
+    element: React.createElement(
+      React.lazy(() => import('@/pages/app_package/AppPackage')),
+    ),
+    icon: <AiFillAndroid />,
   },
 ];

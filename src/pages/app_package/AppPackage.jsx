@@ -2,9 +2,8 @@ import {
   ProTable,
   ModalForm,
   ProFormText,
-  ProFormDatePicker,
-  ProFormSelect,
-  ProFormUploadButton,
+  ProFormDigit,
+  ProFormTextArea,
   ProDescriptions,
 } from '@ant-design/pro-components';
 import { Button, Tooltip, Popconfirm, App } from 'antd';
@@ -21,44 +20,26 @@ import {
   removeEmptyValues,
   searchParamsToObject,
   onlyPageParams,
+  formatWithFiles,
 } from '@/utils/common/object_util';
 import {
-  getUserlist,
-  getUserDetail,
-  deleteUser,
-  updateUser,
-  addUser,
-} from '@/api/pages/user';
-import { uploadCustomRequest } from '@/utils/common/upload_util';
-import { formatWithFiles } from '@/utils/common/object_util';
+  getAppPackageList,
+  getAppPackageDetail,
+  deleteAppPackage,
+  updateAppPackage,
+  addAppPackage,
+} from '@/api/pages/app_package';
 
-const UserList = () => {
+const AppPackageList = () => {
   const { message, modal } = App.useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useTranslation();
 
   // 枚举值定义
 
-  const sexEnum = {
-    man: { text: '男', status: 'Processing' },
-    woman: { text: '女', status: 'Error' },
-    unknown: { text: '未知', status: 'Default' },
-  };
-
-  const userRoleEnum = {
-    default: { text: '普通用户', status: 'Default' },
-    admin: { text: '管理员', status: 'Error' },
-    vip: { text: '会员', status: 'Success' },
-  };
-
-  const userStatusEnum = {
-    enabled: { text: '启用', status: 'Success' },
-    disabled: { text: '禁用', status: 'Error' },
-  };
-
   const columns = [
     {
-      title: t('user.id'),
+      title: t('app_package.id'),
       dataIndex: 'id',
       key: 'id',
       valueType: 'digit',
@@ -70,122 +51,50 @@ const UserList = () => {
       sorter: true,
     },
     {
-      title: t('user.user_name'),
-      dataIndex: 'user_name',
-      key: 'user_name',
+      title: t('app_package.app_name'),
+      dataIndex: 'app_name',
+      key: 'app_name',
       valueType: 'text',
       width: 120,
       copyable: true,
     },
     {
-      title: t('user.user_avatar'),
-      dataIndex: 'user_avatar',
-      key: 'user_avatar',
-      valueType: 'avatar',
+      title: t('app_package.app_version'),
+      dataIndex: 'app_version',
+      key: 'app_version',
+      valueType: 'text',
       hideInSearch: true,
       width: 80,
     },
     {
-      title: t('user.sex'),
-      dataIndex: 'sex',
-      key: 'sex',
-      valueType: 'select',
-      width: 120,
-      filters: true,
-      onFilter: true,
-      valueEnum: sexEnum,
-    },
-    {
-      title: t('user.birthday'),
-      dataIndex: 'birthday',
-      key: 'birthday',
-      valueType: 'date',
-      width: 100,
-      sorter: true,
-    },
-    {
-      title: t('user.age'),
-      dataIndex: 'age',
-      key: 'age',
-      valueType: 'digit',
-      hideInForm: true,
+      title: t('app_package.app_description'),
+      dataIndex: 'app_description',
+      key: 'app_description',
+      valueType: 'text',
+      ellipsis: true,
       hideInSearch: true,
-      width: 60,
-      sorter: true,
+      width: 200,
     },
     {
-      title: t('user.account'),
-      dataIndex: 'account',
-      key: 'account',
+      title: t('app_package.app_file_key'),
+      dataIndex: 'app_file_key',
+      key: 'app_file_key',
       valueType: 'text',
-      width: 180,
-      copyable: true,
-    },
-    {
-      title: t('user.self_account'),
-      dataIndex: 'self_account',
-      key: 'self_account',
-      valueType: 'text',
-      width: 160,
-      copyable: true,
-    },
-    {
-      title: t('user.user_role'),
-      dataIndex: 'user_role',
-      key: 'user_role',
-      valueType: 'select',
-      width: 120,
-      filters: true,
-      onFilter: true,
-      valueEnum: userRoleEnum,
-    },
-    {
-      title: t('user.password'),
-      dataIndex: 'password',
-      key: 'password',
-      valueType: 'text',
-      hideInTable: true,
-      hideInForm: true,
-      hideInDescriptions: true,
       hideInSearch: true,
       width: 120,
       copyable: true,
     },
     {
-      title: t('user.user_status'),
-      dataIndex: 'user_status',
-      key: 'user_status',
-      valueType: 'select',
-      width: 120,
-      sorter: true,
-      valueEnum: userStatusEnum,
-    },
-    {
-      title: t('user.create_by'),
-      dataIndex: 'create_by',
-      key: 'create_by',
+      title: t('app_package.app_size'),
+      dataIndex: 'app_size',
+      key: 'app_size',
       valueType: 'digit',
-      hideInTable: true,
-      hideInForm: true,
-      hideInDescriptions: true,
       hideInSearch: true,
-      width: 120,
+      width: 80,
       sorter: true,
     },
     {
-      title: t('user.update_by'),
-      dataIndex: 'update_by',
-      key: 'update_by',
-      valueType: 'digit',
-      hideInTable: true,
-      hideInForm: true,
-      hideInDescriptions: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },
-    {
-      title: t('user.create_time'),
+      title: t('app_package.create_time'),
       dataIndex: 'create_time',
       key: 'create_time',
       valueType: 'dateTime',
@@ -195,7 +104,7 @@ const UserList = () => {
       sorter: true,
     },
     {
-      title: t('user.update_time'),
+      title: t('app_package.update_time'),
       dataIndex: 'update_time',
       key: 'update_time',
       valueType: 'dateTime',
@@ -205,16 +114,39 @@ const UserList = () => {
       sorter: true,
     },
     {
-      title: t('user.delete_time'),
-      dataIndex: 'delete_time',
-      key: 'delete_time',
-      valueType: 'dateTime',
+      title: t('app_package.create_by'),
+      dataIndex: 'create_by',
+      key: 'create_by',
+      valueType: 'digit',
+      hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
-      hideInTable: true,
       width: 120,
       sorter: true,
     },
+    {
+      title: t('app_package.update_by'),
+      dataIndex: 'update_by',
+      key: 'update_by',
+      valueType: 'digit',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+    {
+      title: t('app_package.delete_time'),
+      dataIndex: 'delete_time',
+      key: 'delete_time',
+      valueType: 'dateTime',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+
     {
       title: t('table.action'),
       valueType: 'option',
@@ -239,7 +171,7 @@ const UserList = () => {
           </Tooltip>,
           <Tooltip
             key="edit"
-            title={t('table.edit', { name: t('user.table_name') })}
+            title={t('table.edit', { name: t('app_package.table_name') })}
           >
             <Button
               shape="circle"
@@ -254,12 +186,12 @@ const UserList = () => {
           </Tooltip>,
           <Tooltip
             key="delete"
-            title={t('table.delete', { name: t('user.table_name') })}
+            title={t('table.delete', { name: t('app_package.table_name') })}
           >
             <Popconfirm
-              title={t('table.delete', { name: t('user.table_name') })}
+              title={t('table.delete', { name: t('app_package.table_name') })}
               description={t('table.delete_tips', {
-                name: t('user.table_name'),
+                name: t('app_package.table_name'),
               })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
@@ -281,7 +213,7 @@ const UserList = () => {
   // 初始化数据
   const dataInit = async (params) => {
     try {
-      const initRes = await getUserlist(params);
+      const initRes = await getAppPackageList(params);
       if (initRes?.code !== 0) {
         return {};
       }
@@ -292,6 +224,7 @@ const UserList = () => {
         success: true,
       };
     } catch (error) {
+      console.error('Error fetching AppPackage list:', error);
       return {};
     }
   };
@@ -308,7 +241,7 @@ const UserList = () => {
 
   // 删除逻辑
   const deleteData = async (id) => {
-    const delRes = await deleteUser(id);
+    const delRes = await deleteAppPackage(id);
     if (delRes?.code === 0) {
       return delRes?.data;
     }
@@ -321,6 +254,7 @@ const UserList = () => {
       await Promise.all(ids.map((id) => deleteData(id)));
       message.success(t('table.delete_success'));
     } catch (error) {
+      console.error('Error deleting AppPackage:', error);
       message.error(t('table.delete_error'));
     } finally {
       tableRef.current.reload();
@@ -332,13 +266,13 @@ const UserList = () => {
     try {
       const form = formatWithFiles(_form);
       if (currentRow?.id && form) {
-        const updateRes = await updateUser(currentRow.id, form);
+        const updateRes = await updateAppPackage(currentRow.id, form);
         message.open({
           type: updateRes.code === 0 ? 'success' : 'error',
           content: updateRes.message,
         });
       } else {
-        const addRes = await addUser(form);
+        const addRes = await addAppPackage(form);
         message.open({
           type: addRes.code === 0 ? 'success' : 'error',
           content: addRes.message,
@@ -346,6 +280,7 @@ const UserList = () => {
       }
       return true;
     } catch (error) {
+      console.error('Error updating or adding AppPackage:', error);
       message.error(t('table.action_error'));
       return false;
     } finally {
@@ -356,14 +291,15 @@ const UserList = () => {
   // 查看详情逻辑
   const getDataDetail = async (id) => {
     try {
-      const detailRes = await getUserDetail(id);
+      const detailRes = await getAppPackageDetail(id);
       const { data } = detailRes;
       if (detailRes.code === 0) {
         setCurrentRow(data);
       }
     } catch (error) {
+      console.error('Error fetching AppPackage detail:', error);
       message.error(
-        t('table.get_details_error', { name: t('user.table_name') }),
+        t('table.get_details_error', { name: t('app_package.table_name') }),
       );
     }
   };
@@ -418,7 +354,7 @@ const UserList = () => {
                 modal.confirm({
                   title: t('table.batch_delete'),
                   content: t('table.batch_delete_tips', {
-                    name: t('user.table_name'),
+                    name: t('app_package.table_name'),
                   }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
@@ -438,7 +374,7 @@ const UserList = () => {
                 addData();
               }}
             >
-              {t('table.add', { name: t('user.table_name') })}
+              {t('table.add', { name: t('app_package.table_name') })}
             </Button>
           ),
         ]}
@@ -450,8 +386,8 @@ const UserList = () => {
         labelWidth="auto"
         title={
           currentRow?.id
-            ? t('table.edit', { name: t('user.table_name') })
-            : t('table.add', { name: t('user.table_name') })
+            ? t('table.edit', { name: t('app_package.table_name') })
+            : t('table.add', { name: t('app_package.table_name') })
         }
         open={handleModalVisible}
         onOpenChange={(visible) => {
@@ -466,137 +402,82 @@ const UserList = () => {
           return await onSubmit(values);
         }}
       >
-        <ProFormText
-          name="user_name"
-          label={t('user.user_name')}
+        <ProFormDigit
+          name="app_size"
+          label={t('app_package.app_size')}
           placeholder={t('table.please_enter', {
-            name: t('user.user_name'),
+            name: t('app_package.app_size'),
           })}
           width="xl"
           rules={[
             {
               required: true,
               message: t('table.please_enter', {
-                name: t('user.user_name'),
-              }),
-            },
-          ]}
-        />
-        <ProFormUploadButton
-          name="user_avatar_files"
-          label={t('user.user_avatar')}
-          rules={[
-            {
-              required: false,
-              message: t('table.please_upload', {
-                name: t('user.user_avatar'),
-              }),
-            },
-          ]}
-          fieldProps={{
-            customRequest: uploadCustomRequest,
-            // 自定义显示已上传的文件
-            showUploadList: {
-              showRemoveIcon: true,
-              showPreviewIcon: true,
-            },
-          }}
-        />
-        <ProFormSelect
-          name="sex"
-          label={t('user.sex')}
-          placeholder={t('table.please_select', {
-            name: t('user.sex'),
-          })}
-          width="xl"
-          valueEnum={sexEnum}
-          rules={[
-            {
-              required: true,
-              message: t('table.please_select', {
-                name: t('user.sex'),
-              }),
-            },
-          ]}
-        />
-        <ProFormDatePicker
-          name="birthday"
-          label={t('user.birthday')}
-          placeholder={t('table.please_select', {
-            name: t('user.birthday'),
-          })}
-          width="xl"
-          rules={[
-            {
-              required: false,
-              message: t('table.please_select', {
-                name: t('user.birthday'),
+                name: t('app_package.app_size'),
               }),
             },
           ]}
         />
         <ProFormText
-          name="account"
-          label={t('user.account')}
+          name="app_name"
+          label={t('app_package.app_name')}
           placeholder={t('table.please_enter', {
-            name: t('user.account'),
+            name: t('app_package.app_name'),
           })}
           width="xl"
           rules={[
             {
               required: true,
               message: t('table.please_enter', {
-                name: t('user.account'),
+                name: t('app_package.app_name'),
               }),
             },
           ]}
         />
         <ProFormText
-          name="self_account"
-          label={t('user.self_account')}
+          name="app_version"
+          label={t('app_package.app_version')}
           placeholder={t('table.please_enter', {
-            name: t('user.self_account'),
+            name: t('app_package.app_version'),
           })}
           width="xl"
           rules={[
             {
               required: true,
               message: t('table.please_enter', {
-                name: t('user.self_account'),
+                name: t('app_package.app_version'),
               }),
             },
           ]}
         />
-        <ProFormSelect
-          name="user_role"
-          label={t('user.user_role')}
-          placeholder={t('table.please_select', {
-            name: t('user.user_role'),
+        <ProFormTextArea
+          name="app_description"
+          label={t('app_package.app_description')}
+          placeholder={t('table.please_enter', {
+            name: t('app_package.app_description'),
           })}
           width="xl"
-          valueEnum={userRoleEnum}
           rules={[
             {
               required: true,
-              message: t('table.please_select', {
-                name: t('user.user_role'),
+              message: t('table.please_enter', {
+                name: t('app_package.app_description'),
               }),
             },
           ]}
         />
-        <ProFormSelect
-          name="user_status"
-          label={t('user.user_status')}
-          placeholder={t('table.please_select', {
-            name: t('user.user_status'),
+        <ProFormText
+          name="app_file_key"
+          label={t('app_package.app_file_key')}
+          placeholder={t('table.please_enter', {
+            name: t('app_package.app_file_key'),
           })}
           width="xl"
-          valueEnum={userStatusEnum}
           rules={[
             {
               required: true,
-              message: t('table.please_select', {
-                name: t('user.user_status'),
+              message: t('table.please_enter', {
+                name: t('app_package.app_file_key'),
               }),
             },
           ]}
@@ -607,7 +488,7 @@ const UserList = () => {
         key={currentRow?.id + 'view'}
         labelWidth="auto"
         disabled
-        title={t('table.details', { name: t('user.table_name') })}
+        title={t('table.details', { name: t('app_package.table_name') })}
         open={viewModalVisible}
         onOpenChange={(visible) => {
           setViewModalVisible(visible);
@@ -628,4 +509,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default AppPackageList;

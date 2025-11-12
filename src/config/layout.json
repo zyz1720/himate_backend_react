@@ -4,7 +4,8 @@
     "/ability/code_generator",
     "/ability/json_editor",
     "/ability/icon_selector",
-    "/user"
+    "/user",
+    "/app_package"
   ],
   "colorList": [
     {
