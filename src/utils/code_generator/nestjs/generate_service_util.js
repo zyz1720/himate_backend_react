@@ -21,18 +21,21 @@ export function generateNestjsService(tableInfo) {
   let conditionStr = '';
   searchFields.forEach((field) => {
     const { name: fieldName, type: fieldType } = field;
-    if (getTsType(fieldType) === 'string') {
-      conditionStr += `if (${fieldName}) {
-      qb.andWhere('${fieldName} LIKE :${fieldName}', {
-        ${fieldName}: '%' + ${fieldName} + '%'
-      });
-      }
-      `;
-    }
-    if (getTsType(fieldType) === 'number' || fieldType === 'enum') {
+    if (
+      getTsType(fieldType) === 'number' ||
+      fieldType === 'enum' ||
+      fieldType === 'bool'
+    ) {
       conditionStr += `if (${fieldName}) {
       qb.andWhere('${fieldName} = :${fieldName}', {
         ${fieldName}: ${fieldName}
+      });
+      }
+      `;
+    } else {
+      conditionStr += `if (${fieldName}) {
+      qb.andWhere('${fieldName} LIKE :${fieldName}', {
+        ${fieldName}: '%' + ${fieldName} + '%'
       });
       }
       `;
@@ -56,7 +59,7 @@ import { ${entityClass} } from './entity/${endpoint}.entity';
 import { Add${camelCaseName}Dto } from './dto/add-${endpoint}.dto';
 import { Update${camelCaseName}Dto } from './dto/update-${endpoint}.dto';
 import { FindAll${camelCaseName}Dto } from './dto/find-all-${endpoint}.dto';
-import { PageResponse, Response } from 'src/common/response/api-response.dto';
+import { PageResponse, Response } from 'src/common/response/api-response';
 import { I18nService } from 'nestjs-i18n';
 
 @Injectable()

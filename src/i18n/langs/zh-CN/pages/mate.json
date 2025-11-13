@@ -1,0 +1,17 @@
+{
+  "table_name": "好友",
+  "menu_name": "好友管理",
+  "id": "好友自增id",
+  "mate_id": "好友uuid",
+  "user_id": "用户id",
+  "user_remarks": "好友对用户的备注",
+  "friend_id": "好友id",
+  "friend_remarks": "用户对好友的备注",
+  "mate_status": "好友状态",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间",
+  "validate_msg": "验证消息"
+}

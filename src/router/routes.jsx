@@ -4,8 +4,11 @@ import {
   AiFillTool,
   AiFillCode,
   AiFillAndroid,
+  AiFillContacts,
+  AiFillEye,
 } from 'react-icons/ai';
-import { BiSolidUser } from 'react-icons/bi';
+import { BiSolidUser, BiSolidGroup, BiSolidChat } from 'react-icons/bi';
+import { HiUserGroup } from 'react-icons/hi2';
 import i18n from 'i18next';
 import React from 'react';
 
@@ -90,5 +93,77 @@ export default [
       React.lazy(() => import('@/pages/app_package/AppPackage')),
     ),
     icon: <AiFillAndroid />,
+  },
+  {
+    path: '/mate',
+    key: 'mate',
+    name: i18n.t('mate.menu_name'),
+    element: React.createElement(React.lazy(() => import('@/pages/mate/Mate'))),
+    icon: <BiSolidGroup />,
+  },
+  {
+    path: '/groups',
+    key: 'groups',
+    name: i18n.t('group.menu_name'),
+    icon: <HiUserGroup />,
+    redirect: '/groups/group',
+    routes: [
+      {
+        path: '/groups/group',
+        key: 'group',
+        name: i18n.t('group.menu_name'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/group/Group')),
+        ),
+        icon: <HiUserGroup />,
+      },
+      {
+        path: '/groups/group_member',
+        key: 'group_member',
+        name: i18n.t('group_member.menu_name'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/group/GroupMember')),
+        ),
+        icon: <AiFillContacts />,
+      },
+    ],
+  },
+  {
+    path: '/messages',
+    key: 'messages',
+    name: i18n.t('message.menu_name'),
+    icon: <BiSolidChat />,
+    redirect: '/messages/session',
+    routes: [
+      {
+        path: '/messages/session',
+        key: 'session',
+        name: i18n.t('session.menu_name'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/messages/Session')),
+        ),
+        icon: <BiSolidChat />,
+      },
+      {
+        path: '/messages/message',
+        key: 'message',
+        name: i18n.t('message.menu_name'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/messages/Message')),
+        ),
+        icon: <BiSolidChat />,
+      },
+      {
+        path: '/messages/message_read_records',
+        key: 'message_read_records',
+        name: i18n.t('message_read_records.menu_name'),
+        element: React.createElement(
+          React.lazy(() =>
+            import('@/pages/messages/MessageReadRecords'),
+          ),
+        ),
+        icon: <AiFillEye />,
+      },
+    ],
   },
 ];

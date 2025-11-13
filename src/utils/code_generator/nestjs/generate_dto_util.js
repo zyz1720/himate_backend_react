@@ -41,7 +41,7 @@ export function generateNestjsDto(tableInfo, type) {
       if (fieldIsPrimaryKey || fieldHideInForm) return; // 排除主键和隐藏在表单中的字段
 
       // 获取枚举值
-      const enumName = toCamelCase(fieldName) + 'Enum';
+      const enumName = toFirstUpperCase(fieldName) + 'Enum';
       if (!isEmptyObject(valueEnum) && fieldType === 'enum') {
         !enumList.includes(enumName) && enumList.push(enumName);
       }
@@ -62,7 +62,7 @@ export function generateNestjsDto(tableInfo, type) {
       // 是否为枚举类型
       const enumValidation =
         fieldType === 'enum'
-          ? `\n  @IsEnum(${toCamelCase(fieldName)}Enum)`
+          ? `\n  @IsEnum(${toFirstUpperCase(fieldName)}Enum)`
           : '';
 
       // 是否检查字节长度
@@ -85,7 +85,9 @@ export function generateNestjsDto(tableInfo, type) {
         fieldComment || fieldName
       }', required: ${fieldRequired}, ${defaultValue} })
   ${validation}${enumValidation}${dateValidation}${emailValidation}${byteLengthValidation}
-  readonly ${fieldName}${fieldRequired ? '' : '?'}: ${getTsType(fieldType)};
+  readonly ${fieldName}${fieldRequired ? '' : '?'}: ${
+        fieldType === 'enum' ? enumName : getTsType(fieldType)
+      };
 
 `;
     });
@@ -120,7 +122,6 @@ ${validations}
       const {
         name: fieldName,
         comment: fieldComment,
-        isRequired: fieldRequired,
         isPrimaryKey: fieldIsPrimaryKey,
         type: fieldType,
         default: fieldDefaultValue,
@@ -131,7 +132,7 @@ ${validations}
       if (fieldIsPrimaryKey || fieldHideInForm) return; // 排除主键和隐藏在表单中的字段
 
       // 获取枚举值
-      const enumName = toCamelCase(fieldName) + 'Enum';
+      const enumName = toFirstUpperCase(fieldName) + 'Enum';
       if (!isEmptyObject(valueEnum) && fieldType === 'enum') {
         !enumList.includes(enumName) && enumList.push(enumName);
       }
@@ -152,7 +153,7 @@ ${validations}
       // 是否为枚举类型
       const enumValidation =
         fieldType === 'enum'
-          ? `\n  @IsEnum(${toCamelCase(fieldName)}Enum)`
+          ? `\n  @IsEnum(${toFirstUpperCase(fieldName)}Enum)`
           : '';
 
       // 是否检查字节长度
@@ -171,11 +172,13 @@ ${validations}
         : '';
 
       // 添加字段装饰器和定义
-      validations += `  @ApiProperty({ description: '${
+      validations += `  @ApiPropertyOptional({ description: '${
         fieldComment || fieldName
-      }', required: ${fieldRequired}, ${defaultValue} })
+      }', ${defaultValue} })
   ${validation}${enumValidation}${dateValidation}${emailValidation}${byteLengthValidation}
-  readonly ${fieldName}?: ${getTsType(fieldType)};
+  readonly ${fieldName}?: ${
+        fieldType === 'enum' ? enumName : getTsType(fieldType)
+      };
 
 `;
     });
@@ -186,7 +189,7 @@ ${validations}
       : '';
 
     // 添加DTO
-    dtoContent = `import { ApiProperty } from '@nestjs/swagger';
+    dtoContent = `import { ApiPropertyOptional } from '@nestjs/swagger';
 import { 
   IsNotEmpty, 
   IsOptional, 

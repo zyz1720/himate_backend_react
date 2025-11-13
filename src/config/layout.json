@@ -5,7 +5,13 @@
     "/ability/json_editor",
     "/ability/icon_selector",
     "/user",
-    "/app_package"
+    "/app_package",
+    "/mate",
+    "/groups/group",
+    "/groups/group_member",
+    "/messages/session",
+    "/messages/message",
+    "/messages/message_read_records"
   ],
   "colorList": [
     {

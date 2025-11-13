@@ -1,4 +1,4 @@
-import { toFirstUpperCase, toCamelCase } from '@/utils/common/string_util';
+import { toFirstUpperCase } from '@/utils/common/string_util';
 import { isEmptyObject } from '@/utils/common/object_util';
 import { getTsType } from '@/utils/code_generator/common/generate_code_util';
 import { autoTimeTypes } from '@/constants/code_generator';
@@ -33,7 +33,7 @@ export function generateNestjsEntity(tableInfo) {
     const isNullable = defaultValue ? false : nullable === 'null';
 
     // 获取枚举值
-    const enumName = toCamelCase(name) + 'Enum';
+    const enumName = toFirstUpperCase(name) + 'Enum';
     if (!isEmptyObject(valueEnum)) {
       enumList.push({
         name: enumName,
@@ -42,8 +42,13 @@ export function generateNestjsEntity(tableInfo) {
     }
 
     // 处理索引
-    let index = isIndex || autoTimeType === 'delete' ? '\n    @Index()' : '';
-    let unique = isUnique ? '\n    @Index({ unique: true })' : '';
+    let index =
+      isIndex || autoTimeType === 'delete'
+        ? `\n    @Index('idx_${tableName}_${name}')`
+        : '';
+    let unique = isUnique
+      ? `\n    @Index('idx_${tableName}_${name}_unique', { unique: true })`
+      : '';
 
     // 处理字段长度
     const columnLength =
@@ -85,7 +90,7 @@ export function generateNestjsEntity(tableInfo) {
     fieldsDefinition += `
     @ApiProperty({ description: '${comment || name}' })${index}${unique}
     ${decorator}
-    ${name}: ${getTsType(type)};
+    ${name}: ${type === 'enum' ? enumName : getTsType(type)};
     `;
   });
 

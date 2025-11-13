@@ -2,6 +2,7 @@
     "library": "图标库",
     "search_icon": "搜索图标",
     "selected_icon": "已选择图标",
+    "no_icons_found": "未找到图标",
     "import_statement": "导入语句",
     "element": "使用方式",
     "loading": "加载图标中...",

@@ -1,0 +1,15 @@
+{
+  "table_name": "群成员",
+  "menu_name": "群成员管理",
+  "id": "群成员表自增id",
+  "group_id": "关联群组uuid",
+  "user_id": "用户id",
+  "member_remarks": "群成员备注",
+  "member_role": "群成员权限",
+  "member_status": "群成员状态",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间"
+}

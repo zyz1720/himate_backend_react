@@ -7,7 +7,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 const apiPrefix = import.meta.env.VITE_API_PREFIX;
 
 const instance = axios.create({
-  baseURL: baseUrl + apiPrefix,
+  // baseURL: baseUrl + apiPrefix,
   timeout: 30000,
 });
 

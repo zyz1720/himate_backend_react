@@ -1,0 +1,13 @@
+{
+  "table_name": "会话",
+  "menu_name": "会话管理",
+  "id": "会话自增id",
+  "session_id": "会话id",
+  "last_msg_id": "最后一条消息的id",
+  "chat_type": "会话类型",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间"
+}

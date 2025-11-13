@@ -1,0 +1,15 @@
+{
+  "table_name": "音乐收藏夹",
+  "menu_name": "音乐收藏夹",
+  "id": "文件自增id",
+  "favorites_remarks": "收藏夹描述",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间",
+  "favorites_name": "收藏夹名",
+  "favorites_cover": "收藏夹封面",
+  "is_public": "是否公开",
+  "is_default": "是否是默认收藏夹"
+}

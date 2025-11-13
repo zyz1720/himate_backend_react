@@ -1,0 +1,14 @@
+{
+  "table_name": "群组",
+  "menu_name": "群组管理",
+  "id": "群组自增id",
+  "group_id": "群组uuid",
+  "group_name": "群组名称",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间",
+  "group_avatar": "群组头像",
+  "group_introduce": "群组简介"
+}

@@ -138,15 +138,12 @@ const CodeGenerator = () => {
   };
 
   // 更新字段配置
-  const handleFieldConfigChange = useCallback((fieldName, key, value) => {
-    setParsedTableFields((prevState) =>
-      prevState.map((field) => {
-        if (field.name === fieldName) {
-          return { ...field, [key]: value };
-        }
-        return field;
-      }),
-    );
+  const handleFieldConfigChange = useCallback((index, key, value) => {
+    setParsedTableFields((prevState) => {
+      const newState = [...prevState];
+      newState[index][key] = value;
+      return newState;
+    });
   }, []);
 
   // 更新表信息
@@ -770,7 +767,7 @@ const CodeGenerator = () => {
                                   allowClear
                                   onChange={(e) =>
                                     handleFieldConfigChange(
-                                      field.name,
+                                      index,
                                       'name',
                                       e.target.value,
                                     )
@@ -790,7 +787,7 @@ const CodeGenerator = () => {
                                   allowClear
                                   onChange={(e) =>
                                     handleFieldConfigChange(
-                                      field.name,
+                                      index,
                                       'comment',
                                       e.target.value,
                                     )
@@ -804,12 +801,13 @@ const CodeGenerator = () => {
                                 label={t('code_generator.col_width')}
                                 className="mb-0"
                               >
-                                <Input
+                                <InputNumber
                                   value={field.colWidth}
+                                  style={{ width: '100%' }}
                                   allowClear
                                   onChange={(e) =>
                                     handleFieldConfigChange(
-                                      field.name,
+                                      index,
                                       'colWidth',
                                       e.target.value,
                                     )
@@ -831,7 +829,7 @@ const CodeGenerator = () => {
                                       value={field.valueType}
                                       onChange={(value) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'valueType',
                                           value,
                                         )
@@ -857,7 +855,7 @@ const CodeGenerator = () => {
                                       value={field.renderType}
                                       onChange={(value) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'renderType',
                                           value,
                                         )
@@ -888,7 +886,7 @@ const CodeGenerator = () => {
                                       value={field.proFormType}
                                       onChange={(value) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'proFormType',
                                           value,
                                         )
@@ -914,7 +912,7 @@ const CodeGenerator = () => {
                                       allowClear
                                       onChange={(e) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'formRegExp',
                                           e.target.value,
                                         )
@@ -936,7 +934,7 @@ const CodeGenerator = () => {
                                   checked={field.hideInTable}
                                   onChange={(e) =>
                                     handleFieldConfigChange(
-                                      field.name,
+                                      index,
                                       'hideInTable',
                                       e.target.checked,
                                     )
@@ -950,7 +948,7 @@ const CodeGenerator = () => {
                                   checked={field.hideInForm}
                                   onChange={(e) =>
                                     handleFieldConfigChange(
-                                      field.name,
+                                      index,
                                       'hideInForm',
                                       e.target.checked,
                                     )
@@ -964,7 +962,7 @@ const CodeGenerator = () => {
                                   checked={field.hideInDetail}
                                   onChange={(e) =>
                                     handleFieldConfigChange(
-                                      field.name,
+                                      index,
                                       'hideInDetail',
                                       e.target.checked,
                                     )
@@ -979,7 +977,7 @@ const CodeGenerator = () => {
                                     checked={field.hideInSearch}
                                     onChange={(e) =>
                                       handleFieldConfigChange(
-                                        field.name,
+                                        index,
                                         'hideInSearch',
                                         e.target.checked,
                                       )
@@ -996,7 +994,7 @@ const CodeGenerator = () => {
                                       checked={field.isCopyable}
                                       onChange={(e) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'isCopyable',
                                           e.target.checked,
                                         )
@@ -1010,7 +1008,7 @@ const CodeGenerator = () => {
                                       checked={field.isEllipsis}
                                       onChange={(e) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'isEllipsis',
                                           e.target.checked,
                                         )
@@ -1027,7 +1025,7 @@ const CodeGenerator = () => {
                                     checked={field.isRequired}
                                     onChange={(e) =>
                                       handleFieldConfigChange(
-                                        field.name,
+                                        index,
                                         'isRequired',
                                         e.target.checked,
                                       )
@@ -1044,7 +1042,7 @@ const CodeGenerator = () => {
                                       checked={field.isFilterable}
                                       onChange={(e) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'isFilterable',
                                           e.target.checked,
                                         )
@@ -1058,7 +1056,7 @@ const CodeGenerator = () => {
                                       checked={field.isSortable}
                                       onChange={(e) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'isSortable',
                                           e.target.checked,
                                         )
@@ -1072,7 +1070,7 @@ const CodeGenerator = () => {
                                       checked={field.isEditable}
                                       onChange={(e) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'isEditable',
                                           e.target.checked,
                                         )
@@ -1086,7 +1084,7 @@ const CodeGenerator = () => {
                                       checked={field.isDisable}
                                       onChange={(e) =>
                                         handleFieldConfigChange(
-                                          field.name,
+                                          index,
                                           'isDisable',
                                           e.target.checked,
                                         )

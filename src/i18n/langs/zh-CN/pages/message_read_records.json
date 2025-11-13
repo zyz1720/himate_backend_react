@@ -1,0 +1,13 @@
+{
+  "table_name": "消息读取记录",
+  "menu_name": "读取记录管理",
+  "id": "消息读取记录自增id",
+  "user_id": "用户id",
+  "message_id": "消息id",
+  "session_id": "会话uuid",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间"
+}
