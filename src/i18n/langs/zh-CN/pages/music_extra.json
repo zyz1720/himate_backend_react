@@ -1,0 +1,17 @@
+{
+  "table_name": "音乐扩展",
+  "menu_name": "扩展信息管理",
+  "id": "音乐扩展信息自增id",
+  "music_id": "音乐id",
+  "match_id": "第三方音乐id",
+  "music_lyric": "标准歌词",
+  "music_trans": "翻译歌词",
+  "music_yrc": "逐字歌词",
+  "music_roma": "音译歌词",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间",
+  "music_cover": "音乐封面"
+}

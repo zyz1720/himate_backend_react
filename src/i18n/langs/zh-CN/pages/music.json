@@ -1,0 +1,19 @@
+{
+  "table_name": "音乐",
+  "menu_name": "音乐管理",
+  "id": "音乐自增id",
+  "sample_rate": "采样率",
+  "bitrate": "比特率",
+  "duration": "音乐时长",
+  "artists": "音乐艺术家集合",
+  "create_time": "创建时间",
+  "update_time": "更新时间",
+  "music_extra_id": "音乐额外信息id",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "delete_time": "删除时间",
+  "file_id": "文件id",
+  "title": "音乐名称",
+  "artist": "音乐艺术家",
+  "album": "专辑名"
+}

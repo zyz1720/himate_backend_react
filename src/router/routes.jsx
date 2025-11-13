@@ -6,9 +6,16 @@ import {
   AiFillAndroid,
   AiFillContacts,
   AiFillEye,
+  AiFillFolderOpen,
 } from 'react-icons/ai';
 import { BiSolidUser, BiSolidGroup, BiSolidChat } from 'react-icons/bi';
 import { HiUserGroup } from 'react-icons/hi2';
+import {
+  BsMusicNoteList,
+  BsFileEarmarkMusicFill,
+  BsFileEarmarkMusic,
+} from 'react-icons/bs';
+
 import i18n from 'i18next';
 import React from 'react';
 
@@ -158,11 +165,52 @@ export default [
         key: 'message_read_records',
         name: i18n.t('message_read_records.menu_name'),
         element: React.createElement(
-          React.lazy(() =>
-            import('@/pages/messages/MessageReadRecords'),
-          ),
+          React.lazy(() => import('@/pages/messages/MessageReadRecords')),
         ),
         icon: <AiFillEye />,
+      },
+    ],
+  },
+  {
+    path: '/file',
+    key: 'file',
+    name: i18n.t('file.menu_name'),
+    element: React.createElement(React.lazy(() => import('@/pages/file/File'))),
+    icon: <AiFillFolderOpen />,
+  },
+  {
+    path: '/songs',
+    key: 'songs',
+    name: i18n.t('music.menu_name'),
+    icon: <BsFileEarmarkMusicFill />,
+    redirect: '/songs/music',
+    routes: [
+      {
+        path: '/songs/music',
+        key: 'music',
+        name: i18n.t('music.menu_name'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/music/Music')),
+        ),
+        icon: <BsFileEarmarkMusicFill />,
+      },
+      {
+        path: '/songs/music_extra',
+        key: 'music_extra',
+        name: i18n.t('music_extra.menu_name'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/music/MusicExtra')),
+        ),
+        icon: <BsFileEarmarkMusic />,
+      },
+      {
+        path: '/songs/favorites',
+        key: 'favorites',
+        name: i18n.t('favorites.menu_name'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/music/Favorites')),
+        ),
+        icon: <BsMusicNoteList />,
       },
     ],
   },

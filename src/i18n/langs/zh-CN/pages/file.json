@@ -1,0 +1,15 @@
+{
+  "table_name": "文件",
+  "menu_name": "文件管理",
+  "id": "文件自增id",
+  "file_type": "文件类型",
+  "use_type": "使用类型",
+  "file_hash": "文件hash",
+  "create_time": "创建时间",
+  "create_by": "创建者id",
+  "update_by": "修改者id",
+  "update_time": "更新时间",
+  "delete_time": "删除时间",
+  "file_key": "文件路径",
+  "file_size": "文件大小"
+}

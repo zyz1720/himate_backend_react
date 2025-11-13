@@ -11,7 +11,11 @@
     "/groups/group_member",
     "/messages/session",
     "/messages/message",
-    "/messages/message_read_records"
+    "/messages/message_read_records",
+    "/file",
+    "/songs/music",
+    "/songs/music_extra",
+    "/songs/favorites"
   ],
   "colorList": [
     {

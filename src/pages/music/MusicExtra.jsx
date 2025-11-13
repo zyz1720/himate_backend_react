@@ -1,12 +1,28 @@
 import {
   ProTable,
   ModalForm,
+  ProForm,
   ProFormText,
-  ProFormSelect,
+  ProFormDigit,
   ProFormTextArea,
+  ProFormCaptcha,
+  ProFormDatePicker,
+  ProFormDateTimePicker,
+  ProFormDateRangePicker,
+  ProFormDateTimeRangePicker,
+  ProFormSelect,
+  ProFormTreeSelect,
+  ProFormCheckbox,
+  ProFormRadio,
+  ProFormSlider,
+  ProFormSwitch,
+  ProFormUploadButton,
+  ProFormUploadDragger,
+  ProFormMoney,
+  ProFormSegmented,
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, App } from 'antd';
+import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -23,14 +39,17 @@ import {
   formatWithFiles,
 } from '@/utils/common/object_util';
 import {
-  getAppPackageList,
-  getAppPackageDetail,
-  deleteAppPackage,
-  updateAppPackage,
-  addAppPackage,
-} from '@/api/pages/app_package';
+  getMusicExtraList,
+  getMusicExtraDetail,
+  deleteMusicExtra,
+  updateMusicExtra,
+  addMusicExtra,
+} from '@/api/pages/music_extra';
+import { uploadCustomRequest } from '@/utils/common/upload_util';
+import RichText from '@/components/common/RichText';
+import HTMLContainer from '@/components/common/HTMLContainer';
 
-const AppPackageList = () => {
+const MusicExtraList = () => {
   const { message, modal } = App.useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useTranslation();
@@ -39,7 +58,7 @@ const AppPackageList = () => {
 
   const columns = [
     {
-      title: t('app_package.id'),
+      title: t('music_extra.id'),
       dataIndex: 'id',
       key: 'id',
       valueType: 'digit',
@@ -51,60 +70,86 @@ const AppPackageList = () => {
       sorter: true,
     },
     {
-      title: t('app_package.app_name'),
-      dataIndex: 'app_name',
-      key: 'app_name',
+      title: t('music_extra.music_id'),
+      dataIndex: 'music_id',
+      key: 'music_id',
+      valueType: 'select',
+      ellipsis: true,
+      width: 120,
+    },
+    {
+      title: t('music_extra.match_id'),
+      dataIndex: 'match_id',
+      key: 'match_id',
       valueType: 'text',
       width: 120,
       copyable: true,
     },
     {
-      title: t('app_package.app_version'),
-      dataIndex: 'app_version',
-      key: 'app_version',
-      valueType: 'text',
-      hideInSearch: true,
-      width: 80,
+      title: t('music_extra.music_cover'),
+      dataIndex: 'music_cover',
+      key: 'music_cover',
+      valueType: 'image',
+      width: 120,
     },
     {
-      title: t('app_package.app_description'),
-      dataIndex: 'app_description',
-      key: 'app_description',
-      valueType: 'text',
-      ellipsis: true,
+      title: t('music_extra.music_lyric'),
+      dataIndex: 'music_lyric',
+      key: 'music_lyric',
+      valueType: 'textarea',
+      hideInTable: true,
       hideInSearch: true,
-      width: 200,
+      width: 120,
     },
     {
-      title: t('app_package.file_id'),
-      dataIndex: 'file_id',
-      key: 'file_id',
-      valueType: 'select',
+      title: t('music_extra.music_trans'),
+      dataIndex: 'music_trans',
+      key: 'music_trans',
+      valueType: 'textarea',
+      hideInTable: true,
       hideInSearch: true,
-      width: 80,
+      width: 120,
     },
     {
-      title: t('app_package.create_time'),
+      title: t('music_extra.music_yrc'),
+      dataIndex: 'music_yrc',
+      key: 'music_yrc',
+      valueType: 'textarea',
+      hideInTable: true,
+      hideInSearch: true,
+      width: 120,
+    },
+    {
+      title: t('music_extra.music_roma'),
+      dataIndex: 'music_roma',
+      key: 'music_roma',
+      valueType: 'textarea',
+      hideInTable: true,
+      hideInSearch: true,
+      width: 120,
+    },
+    {
+      title: t('music_extra.create_time'),
       dataIndex: 'create_time',
       key: 'create_time',
       valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
-      width: 160,
+      width: 120,
       sorter: true,
     },
     {
-      title: t('app_package.update_time'),
+      title: t('music_extra.update_time'),
       dataIndex: 'update_time',
       key: 'update_time',
       valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
-      width: 160,
+      width: 120,
       sorter: true,
     },
     {
-      title: t('app_package.create_by'),
+      title: t('music_extra.create_by'),
       dataIndex: 'create_by',
       key: 'create_by',
       valueType: 'digit',
@@ -115,7 +160,7 @@ const AppPackageList = () => {
       sorter: true,
     },
     {
-      title: t('app_package.update_by'),
+      title: t('music_extra.update_by'),
       dataIndex: 'update_by',
       key: 'update_by',
       valueType: 'digit',
@@ -126,7 +171,7 @@ const AppPackageList = () => {
       sorter: true,
     },
     {
-      title: t('app_package.delete_time'),
+      title: t('music_extra.delete_time'),
       dataIndex: 'delete_time',
       key: 'delete_time',
       valueType: 'dateTime',
@@ -161,7 +206,7 @@ const AppPackageList = () => {
           </Tooltip>,
           <Tooltip
             key="edit"
-            title={t('table.edit', { name: t('app_package.table_name') })}
+            title={t('table.edit', { name: t('music_extra.table_name') })}
           >
             <Button
               shape="circle"
@@ -176,12 +221,12 @@ const AppPackageList = () => {
           </Tooltip>,
           <Tooltip
             key="delete"
-            title={t('table.delete', { name: t('app_package.table_name') })}
+            title={t('table.delete', { name: t('music_extra.table_name') })}
           >
             <Popconfirm
-              title={t('table.delete', { name: t('app_package.table_name') })}
+              title={t('table.delete', { name: t('music_extra.table_name') })}
               description={t('table.delete_tips', {
-                name: t('app_package.table_name'),
+                name: t('music_extra.table_name'),
               })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
@@ -203,7 +248,7 @@ const AppPackageList = () => {
   // 初始化数据
   const dataInit = async (params) => {
     try {
-      const initRes = await getAppPackageList(params);
+      const initRes = await getMusicExtraList(params);
       if (initRes?.code !== 0) {
         return {};
       }
@@ -214,7 +259,7 @@ const AppPackageList = () => {
         success: true,
       };
     } catch (error) {
-      console.error('Error fetching AppPackage list:', error);
+      console.error('Error fetching MusicExtra list:', error);
       return {};
     }
   };
@@ -231,7 +276,7 @@ const AppPackageList = () => {
 
   // 删除逻辑
   const deleteData = async (id) => {
-    const delRes = await deleteAppPackage(id);
+    const delRes = await deleteMusicExtra(id);
     if (delRes?.code === 0) {
       return delRes?.data;
     }
@@ -244,7 +289,7 @@ const AppPackageList = () => {
       await Promise.all(ids.map((id) => deleteData(id)));
       message.success(t('table.delete_success'));
     } catch (error) {
-      console.error('Error deleting AppPackage:', error);
+      console.error('Error deleting MusicExtra:', error);
       message.error(t('table.delete_error'));
     } finally {
       tableRef.current.reload();
@@ -256,13 +301,13 @@ const AppPackageList = () => {
     try {
       const form = formatWithFiles(_form);
       if (currentRow?.id && form) {
-        const updateRes = await updateAppPackage(currentRow.id, form);
+        const updateRes = await updateMusicExtra(currentRow.id, form);
         message.open({
           type: updateRes.code === 0 ? 'success' : 'error',
           content: updateRes.message,
         });
       } else {
-        const addRes = await addAppPackage(form);
+        const addRes = await addMusicExtra(form);
         message.open({
           type: addRes.code === 0 ? 'success' : 'error',
           content: addRes.message,
@@ -270,7 +315,7 @@ const AppPackageList = () => {
       }
       return true;
     } catch (error) {
-      console.error('Error updating or adding AppPackage:', error);
+      console.error('Error updating or adding MusicExtra:', error);
       message.error(t('table.action_error'));
       return false;
     } finally {
@@ -281,15 +326,15 @@ const AppPackageList = () => {
   // 查看详情逻辑
   const getDataDetail = async (id) => {
     try {
-      const detailRes = await getAppPackageDetail(id);
+      const detailRes = await getMusicExtraDetail(id);
       const { data } = detailRes;
       if (detailRes.code === 0) {
         setCurrentRow(data);
       }
     } catch (error) {
-      console.error('Error fetching AppPackage detail:', error);
+      console.error('Error fetching MusicExtra detail:', error);
       message.error(
-        t('table.get_details_error', { name: t('app_package.table_name') }),
+        t('table.get_details_error', { name: t('music_extra.table_name') }),
       );
     }
   };
@@ -344,7 +389,7 @@ const AppPackageList = () => {
                 modal.confirm({
                   title: t('table.batch_delete'),
                   content: t('table.batch_delete_tips', {
-                    name: t('app_package.table_name'),
+                    name: t('music_extra.table_name'),
                   }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
@@ -364,7 +409,7 @@ const AppPackageList = () => {
                 addData();
               }}
             >
-              {t('table.add', { name: t('app_package.table_name') })}
+              {t('table.add', { name: t('music_extra.table_name') })}
             </Button>
           ),
         ]}
@@ -376,8 +421,8 @@ const AppPackageList = () => {
         labelWidth="auto"
         title={
           currentRow?.id
-            ? t('table.edit', { name: t('app_package.table_name') })
-            : t('table.add', { name: t('app_package.table_name') })
+            ? t('table.edit', { name: t('music_extra.table_name') })
+            : t('table.add', { name: t('music_extra.table_name') })
         }
         open={handleModalVisible}
         onOpenChange={(visible) => {
@@ -393,65 +438,114 @@ const AppPackageList = () => {
         }}
       >
         <ProFormSelect
-          name="file_id"
-          label={t('app_package.file_id')}
-          placeholder={t('table.please_enter', {
-            name: t('app_package.file_id'),
+          name="music_id"
+          label={t('music_extra.music_id')}
+          placeholder={t('table.please_select', {
+            name: t('music_extra.music_id'),
           })}
           width="xl"
+          valueEnum={{}}
           rules={[
             {
               required: true,
               message: t('table.please_select', {
-                name: t('app_package.file_id'),
+                name: t('music_extra.music_id'),
               }),
             },
           ]}
         />
         <ProFormText
-          name="app_name"
-          label={t('app_package.app_name')}
+          name="match_id"
+          label={t('music_extra.match_id')}
           placeholder={t('table.please_enter', {
-            name: t('app_package.app_name'),
+            name: t('music_extra.match_id'),
           })}
           width="xl"
           rules={[
             {
               required: true,
               message: t('table.please_enter', {
-                name: t('app_package.app_name'),
-              }),
-            },
-          ]}
-        />
-        <ProFormText
-          name="app_version"
-          label={t('app_package.app_version')}
-          placeholder={t('table.please_enter', {
-            name: t('app_package.app_version'),
-          })}
-          width="xl"
-          rules={[
-            {
-              required: true,
-              message: t('table.please_enter', {
-                name: t('app_package.app_version'),
+                name: t('music_extra.match_id'),
               }),
             },
           ]}
         />
         <ProFormTextArea
-          name="app_description"
-          label={t('app_package.app_description')}
+          name="music_lyric"
+          label={t('music_extra.music_lyric')}
           placeholder={t('table.please_enter', {
-            name: t('app_package.app_description'),
+            name: t('music_extra.music_lyric'),
+          })}
+          width="xl"
+          rules={[
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('music_extra.music_lyric'),
+              }),
+            },
+          ]}
+        />
+        <ProFormTextArea
+          name="music_trans"
+          label={t('music_extra.music_trans')}
+          placeholder={t('table.please_enter', {
+            name: t('music_extra.music_trans'),
+          })}
+          width="xl"
+          rules={[
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('music_extra.music_trans'),
+              }),
+            },
+          ]}
+        />
+        <ProFormTextArea
+          name="music_yrc"
+          label={t('music_extra.music_yrc')}
+          placeholder={t('table.please_enter', {
+            name: t('music_extra.music_yrc'),
+          })}
+          width="xl"
+          rules={[
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('music_extra.music_yrc'),
+              }),
+            },
+          ]}
+        />
+        <ProFormTextArea
+          name="music_roma"
+          label={t('music_extra.music_roma')}
+          placeholder={t('table.please_enter', {
+            name: t('music_extra.music_roma'),
+          })}
+          width="xl"
+          rules={[
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('music_extra.music_roma'),
+              }),
+            },
+          ]}
+        />
+        <ProFormText
+          name="music_cover"
+          label={t('music_extra.music_cover')}
+          placeholder={t('table.please_enter', {
+            name: t('music_extra.music_cover'),
           })}
           width="xl"
           rules={[
             {
               required: true,
               message: t('table.please_enter', {
-                name: t('app_package.app_description'),
+                name: t('music_extra.music_cover'),
               }),
             },
           ]}
@@ -462,7 +556,7 @@ const AppPackageList = () => {
         key={currentRow?.id + 'view'}
         labelWidth="auto"
         disabled
-        title={t('table.details', { name: t('app_package.table_name') })}
+        title={t('table.details', { name: t('music_extra.table_name') })}
         open={viewModalVisible}
         onOpenChange={(visible) => {
           setViewModalVisible(visible);
@@ -483,4 +577,4 @@ const AppPackageList = () => {
   );
 };
 
-export default AppPackageList;
+export default MusicExtraList;

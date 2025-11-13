@@ -1,12 +1,28 @@
 import {
   ProTable,
   ModalForm,
+  ProForm,
   ProFormText,
-  ProFormSelect,
+  ProFormDigit,
   ProFormTextArea,
+  ProFormCaptcha,
+  ProFormDatePicker,
+  ProFormDateTimePicker,
+  ProFormDateRangePicker,
+  ProFormDateTimeRangePicker,
+  ProFormSelect,
+  ProFormTreeSelect,
+  ProFormCheckbox,
+  ProFormRadio,
+  ProFormSlider,
+  ProFormSwitch,
+  ProFormUploadButton,
+  ProFormUploadDragger,
+  ProFormMoney,
+  ProFormSegmented, 
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, App } from 'antd';
+import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -23,120 +39,128 @@ import {
   formatWithFiles,
 } from '@/utils/common/object_util';
 import {
-  getAppPackageList,
-  getAppPackageDetail,
-  deleteAppPackage,
-  updateAppPackage,
-  addAppPackage,
-} from '@/api/pages/app_package';
+  getFileList,
+  getFileDetail,
+  deleteFile,
+  updateFile,
+  addFile,
+} from '@/api/pages/file';
+import { uploadCustomRequest } from '@/utils/common/upload_util';
+import RichText from '@/components/common/RichText';
+import HTMLContainer from '@/components/common/HTMLContainer';
 
-const AppPackageList = () => {
+const FileList = () => {
   const { message, modal } = App.useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useTranslation();
 
   // 枚举值定义
+  
+    const fileTypeEnum = {image:{text:"图片",status:"Default"},video:{text:"视频",status:"Default"},audio:{text:"音频",status:"Default"},other:{text:"其它",status:"Default"},document:{text:"文档",status:"Default"}};
+    
+    const useTypeEnum = {user:{text:"用户使用",status:"Default"},chat:{text:"聊天使用",status:"Default"},group:{text:"群组使用",status:"Default"},system:{text:"系统使用",status:"Default"},music:{text:"音乐使用",status:"Default"},upload:{text:"临时上传",status:"Default"},unknown:{text:"未知",status:"Default"}};
+    
 
   const columns = [
     {
-      title: t('app_package.id'),
+      title: t('file.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType: 'digit',
+      valueType:'digit',
       hideInTable: true,
       hideInForm: true,
       hideInDescriptions: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },
-    {
-      title: t('app_package.app_name'),
-      dataIndex: 'app_name',
-      key: 'app_name',
-      valueType: 'text',
+    },{
+      title: t('file.file_type'),
+      dataIndex: 'file_type',
+      key: 'file_type',
+      valueType:'select',
       width: 120,
-      copyable: true,
-    },
-    {
-      title: t('app_package.app_version'),
-      dataIndex: 'app_version',
-      key: 'app_version',
-      valueType: 'text',
+      filters: true,
+      onFilter: true,
+      valueEnum: fileTypeEnum,
+    },{
+      title: t('file.use_type'),
+      dataIndex: 'use_type',
+      key: 'use_type',
+      valueType:'select',
+      width: 120,
+      filters: true,
+      onFilter: true,
+      valueEnum: useTypeEnum,
+    },{
+      title: t('file.file_hash'),
+      dataIndex: 'file_hash',
+      key: 'file_hash',
+      valueType:'text',
+      hideInTable: true,
+      hideInForm: true,
       hideInSearch: true,
-      width: 80,
-    },
-    {
-      title: t('app_package.app_description'),
-      dataIndex: 'app_description',
-      key: 'app_description',
-      valueType: 'text',
-      ellipsis: true,
-      hideInSearch: true,
-      width: 200,
-    },
-    {
-      title: t('app_package.file_id'),
-      dataIndex: 'file_id',
-      key: 'file_id',
-      valueType: 'select',
-      hideInSearch: true,
-      width: 80,
-    },
-    {
-      title: t('app_package.create_time'),
+      width: 120,
+    },{
+      title: t('file.create_time'),
       dataIndex: 'create_time',
       key: 'create_time',
-      valueType: 'dateTime',
+      valueType:'dateTime',
       hideInForm: true,
       hideInSearch: true,
-      width: 160,
+      width: 120,
       sorter: true,
-    },
-    {
-      title: t('app_package.update_time'),
-      dataIndex: 'update_time',
-      key: 'update_time',
-      valueType: 'dateTime',
-      hideInForm: true,
-      hideInSearch: true,
-      width: 160,
-      sorter: true,
-    },
-    {
-      title: t('app_package.create_by'),
+    },{
+      title: t('file.create_by'),
       dataIndex: 'create_by',
       key: 'create_by',
-      valueType: 'digit',
+      valueType:'digit',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
-      sorter: true,
-    },
-    {
-      title: t('app_package.update_by'),
+    },{
+      title: t('file.update_by'),
       dataIndex: 'update_by',
       key: 'update_by',
-      valueType: 'digit',
+      valueType:'digit',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },
-    {
-      title: t('app_package.delete_time'),
+    },{
+      title: t('file.update_time'),
+      dataIndex: 'update_time',
+      key: 'update_time',
+      valueType:'dateTime',
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },{
+      title: t('file.delete_time'),
       dataIndex: 'delete_time',
       key: 'delete_time',
-      valueType: 'dateTime',
+      valueType:'dateTime',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
+    },{
+      title: t('file.file_key'),
+      dataIndex: 'file_key',
+      key: 'file_key',
+      valueType:'text',
+      width: 120,
+    },{
+      title: t('file.file_size'),
+      dataIndex: 'file_size',
+      key: 'file_size',
+      valueType:'digit',
+      hideInSearch: true,
+      width: 120,
     },
-
     {
       title: t('table.action'),
       valueType: 'option',
@@ -161,7 +185,7 @@ const AppPackageList = () => {
           </Tooltip>,
           <Tooltip
             key="edit"
-            title={t('table.edit', { name: t('app_package.table_name') })}
+            title={t('table.edit', { name: t('file.table_name') })}
           >
             <Button
               shape="circle"
@@ -176,13 +200,11 @@ const AppPackageList = () => {
           </Tooltip>,
           <Tooltip
             key="delete"
-            title={t('table.delete', { name: t('app_package.table_name') })}
+            title={t('table.delete', { name: t('file.table_name') })}
           >
             <Popconfirm
-              title={t('table.delete', { name: t('app_package.table_name') })}
-              description={t('table.delete_tips', {
-                name: t('app_package.table_name'),
-              })}
+              title={t('table.delete', { name: t('file.table_name') })}
+              description={t('table.delete_tips', { name: t('file.table_name') })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
               }}
@@ -203,7 +225,7 @@ const AppPackageList = () => {
   // 初始化数据
   const dataInit = async (params) => {
     try {
-      const initRes = await getAppPackageList(params);
+      const initRes = await getFileList(params);
       if (initRes?.code !== 0) {
         return {};
       }
@@ -214,7 +236,7 @@ const AppPackageList = () => {
         success: true,
       };
     } catch (error) {
-      console.error('Error fetching AppPackage list:', error);
+      console.error('Error fetching File list:', error);
       return {};
     }
   };
@@ -231,7 +253,7 @@ const AppPackageList = () => {
 
   // 删除逻辑
   const deleteData = async (id) => {
-    const delRes = await deleteAppPackage(id);
+    const delRes = await deleteFile(id);
     if (delRes?.code === 0) {
       return delRes?.data;
     }
@@ -244,7 +266,7 @@ const AppPackageList = () => {
       await Promise.all(ids.map((id) => deleteData(id)));
       message.success(t('table.delete_success'));
     } catch (error) {
-      console.error('Error deleting AppPackage:', error);
+      console.error('Error deleting File:', error);
       message.error(t('table.delete_error'));
     } finally {
       tableRef.current.reload();
@@ -256,13 +278,13 @@ const AppPackageList = () => {
     try {
       const form = formatWithFiles(_form);
       if (currentRow?.id && form) {
-        const updateRes = await updateAppPackage(currentRow.id, form);
+        const updateRes = await updateFile(currentRow.id, form);
         message.open({
           type: updateRes.code === 0 ? 'success' : 'error',
           content: updateRes.message,
         });
       } else {
-        const addRes = await addAppPackage(form);
+        const addRes = await addFile(form);
         message.open({
           type: addRes.code === 0 ? 'success' : 'error',
           content: addRes.message,
@@ -270,7 +292,7 @@ const AppPackageList = () => {
       }
       return true;
     } catch (error) {
-      console.error('Error updating or adding AppPackage:', error);
+      console.error('Error updating or adding File:', error);
       message.error(t('table.action_error'));
       return false;
     } finally {
@@ -281,16 +303,14 @@ const AppPackageList = () => {
   // 查看详情逻辑
   const getDataDetail = async (id) => {
     try {
-      const detailRes = await getAppPackageDetail(id);
+      const detailRes = await getFileDetail(id);
       const { data } = detailRes;
       if (detailRes.code === 0) {
         setCurrentRow(data);
       }
     } catch (error) {
-      console.error('Error fetching AppPackage detail:', error);
-      message.error(
-        t('table.get_details_error', { name: t('app_package.table_name') }),
-      );
+      console.error('Error fetching File detail:', error);
+      message.error(t('table.get_details_error', { name: t('file.table_name') }));
     }
   };
 
@@ -343,9 +363,7 @@ const AppPackageList = () => {
               onClick={() => {
                 modal.confirm({
                   title: t('table.batch_delete'),
-                  content: t('table.batch_delete_tips', {
-                    name: t('app_package.table_name'),
-                  }),
+                  content: t('table.batch_delete_tips', { name: t('file.table_name') }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
                   },
@@ -364,7 +382,7 @@ const AppPackageList = () => {
                 addData();
               }}
             >
-              {t('table.add', { name: t('app_package.table_name') })}
+              {t('table.add', { name: t('file.table_name') })}
             </Button>
           ),
         ]}
@@ -376,8 +394,8 @@ const AppPackageList = () => {
         labelWidth="auto"
         title={
           currentRow?.id
-            ? t('table.edit', { name: t('app_package.table_name') })
-            : t('table.add', { name: t('app_package.table_name') })
+            ? t('table.edit', { name: t('file.table_name') })
+            : t('table.add', { name: t('file.table_name') })
         }
         open={handleModalVisible}
         onOpenChange={(visible) => {
@@ -393,76 +411,67 @@ const AppPackageList = () => {
         }}
       >
         <ProFormSelect
-          name="file_id"
-          label={t('app_package.file_id')}
-          placeholder={t('table.please_enter', {
-            name: t('app_package.file_id'),
+          name="file_type"
+          label={t('file.file_type')}
+          placeholder={t('table.please_select', {
+            name: t('file.file_type'),
           })}
           width="xl"
+          valueEnum={fileTypeEnum}
           rules={[
-            {
-              required: true,
-              message: t('table.please_select', {
-                name: t('app_package.file_id'),
-              }),
-            },
+            { required: false, message: t('table.please_select', {
+              name: t('file.file_type'),
+            }) }
+          ]}
+        />
+        <ProFormSelect
+          name="use_type"
+          label={t('file.use_type')}
+          placeholder={t('table.please_select', {
+            name: t('file.use_type'),
+          })}
+          width="xl"
+          valueEnum={useTypeEnum}
+          rules={[
+            { required: false, message: t('table.please_select', {
+              name: t('file.use_type'),
+            }) }
           ]}
         />
         <ProFormText
-          name="app_name"
-          label={t('app_package.app_name')}
+          name="file_key"
+          label={t('file.file_key')}
           placeholder={t('table.please_enter', {
-            name: t('app_package.app_name'),
+            name: t('file.file_key'),
           })}
           width="xl"
           rules={[
-            {
-              required: true,
-              message: t('table.please_enter', {
-                name: t('app_package.app_name'),
-              }),
-            },
+            { required: true, message: t('table.please_enter', {
+              name: t('file.file_key'),
+            }) },
           ]}
         />
-        <ProFormText
-          name="app_version"
-          label={t('app_package.app_version')}
+        <ProFormDigit
+          name="file_size"
+          label={t('file.file_size')}
           placeholder={t('table.please_enter', {
-            name: t('app_package.app_version'),
+            name: t('file.file_size'),
           })}
           width="xl"
           rules={[
-            {
-              required: true,
-              message: t('table.please_enter', {
-                name: t('app_package.app_version'),
-              }),
-            },
+            { required: true, message: t('table.please_enter', {
+              name: t('file.file_size'),
+            }) },
           ]}
         />
-        <ProFormTextArea
-          name="app_description"
-          label={t('app_package.app_description')}
-          placeholder={t('table.please_enter', {
-            name: t('app_package.app_description'),
-          })}
-          width="xl"
-          rules={[
-            {
-              required: true,
-              message: t('table.please_enter', {
-                name: t('app_package.app_description'),
-              }),
-            },
-          ]}
-        />
+        
       </ModalForm>
       {/* 详情弹窗： */}
       <ModalForm
         key={currentRow?.id + 'view'}
         labelWidth="auto"
         disabled
-        title={t('table.details', { name: t('app_package.table_name') })}
+        title={t('table.details', { name: t('file.table_name') })}
         open={viewModalVisible}
         onOpenChange={(visible) => {
           setViewModalVisible(visible);
@@ -483,4 +492,4 @@ const AppPackageList = () => {
   );
 };
 
-export default AppPackageList;
+export default FileList;
