@@ -35,6 +35,8 @@ export default defineConfig({
         entryFileNames: 'static/js/[name]-[hash].js',
         assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
       },
+      // 在生产构建中排除 mockjs
+      external: process.env.NODE_ENV === 'production' ? ['mockjs'] : [],
     },
   },
   plugins: [

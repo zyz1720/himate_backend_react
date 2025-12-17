@@ -30,7 +30,7 @@ import React from 'react';
   - routes: RouteConfig[], 子路由
   - hideInMenu: boolean, 是否在菜单中隐藏该路由
 */
-export default [
+const routes = [
   {
     path: '/welcome',
     key: 'welcome',
@@ -56,35 +56,38 @@ export default [
     name: i18n.t('routes.ability'),
     icon: <AiFillTool />,
     redirect: '/ability/code_generator',
-    routes: [
-      {
-        path: '/ability/code_generator',
-        key: 'code_generator',
-        name: i18n.t('routes.code_generator'),
-        element: React.createElement(
-          React.lazy(() => import('@/pages/ability/CodeGenerator')),
-        ),
-        icon: <AiFillCode />,
-      },
-      {
-        path: '/ability/json_editor',
-        key: 'json_editor',
-        name: i18n.t('routes.json_editor'),
-        element: React.createElement(
-          React.lazy(() => import('@/pages/ability/JsonEditor')),
-        ),
-        icon: <AiFillCode />,
-      },
-      {
-        path: '/ability/icon_selector',
-        key: 'icon_selector',
-        name: i18n.t('routes.icon_selector'),
-        element: React.createElement(
-          React.lazy(() => import('@/pages/ability/IconSelector')),
-        ),
-        icon: <AiFillCode />,
-      },
-    ],
+    routes:
+      process.env.NODE_ENV === 'production'
+        ? []
+        : [
+            {
+              path: '/ability/code_generator',
+              key: 'code_generator',
+              name: i18n.t('routes.code_generator'),
+              element: React.createElement(
+                React.lazy(() => import('@/pages/ability/CodeGenerator')),
+              ),
+              icon: <AiFillCode />,
+            },
+            {
+              path: '/ability/json_editor',
+              key: 'json_editor',
+              name: i18n.t('routes.json_editor'),
+              element: React.createElement(
+                React.lazy(() => import('@/pages/ability/JsonEditor')),
+              ),
+              icon: <AiFillCode />,
+            },
+            {
+              path: '/ability/icon_selector',
+              key: 'icon_selector',
+              name: i18n.t('routes.icon_selector'),
+              element: React.createElement(
+                React.lazy(() => import('@/pages/ability/IconSelector')),
+              ),
+              icon: <AiFillCode />,
+            },
+          ],
   },
   {
     path: '/user',
@@ -236,3 +239,9 @@ export default [
     ],
   },
 ];
+
+process.env.NODE_ENV === 'production'
+  ? routes.filter((route) => route.key !== 'ability')
+  : routes;
+
+export default routes;

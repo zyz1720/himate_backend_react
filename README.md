@@ -160,6 +160,10 @@ yarn lint
 
 API 配置位于 `src/api/config.js`，可以配置 API 基础路径和请求拦截器。
 
+### 开源协议
+
+本项目基于 MIT 开源协议开源，您可以在遵守协议的前提下自由使用、修改和分发本项目的代码。
+
 ### 关联项目
-- **前端**: [Himate React Native App](https://gitee.com/zyz1720/himate_rn_app)
-- **后端**: [Himate NestJS Server](https://gitee.com/zyz1720/himate_nest_server)
+- **前端**: [Himate React Native App](https://gitee.com/zyz1720/himate_app_rn)
+- **后端**: [Himate NestJS Server](https://gitee.com/zyz1720/himate_server_nest)
