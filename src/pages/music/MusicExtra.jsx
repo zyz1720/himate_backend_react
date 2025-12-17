@@ -1,28 +1,12 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
-  ProFormDigit,
   ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
   ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented,
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, Image, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -45,9 +29,8 @@ import {
   updateMusicExtra,
   addMusicExtra,
 } from '@/api/pages/music_extra';
-import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
+
+const THUMBNAIL_URL = import.meta.env.VITE_THUMBNAIL_URL;
 
 const MusicExtraList = () => {
   const { message, modal } = App.useApp();
@@ -73,8 +56,8 @@ const MusicExtraList = () => {
       title: t('music_extra.music_id'),
       dataIndex: 'music_id',
       key: 'music_id',
-      valueType: 'select',
-      ellipsis: true,
+      valueType: 'text',
+      copyable: true,
       width: 120,
     },
     {
@@ -89,8 +72,9 @@ const MusicExtraList = () => {
       title: t('music_extra.music_cover'),
       dataIndex: 'music_cover',
       key: 'music_cover',
-      valueType: 'image',
       width: 120,
+      hideInSearch: true,
+      render: (value) => <Image width={60} src={THUMBNAIL_URL + value} />,
     },
     {
       title: t('music_extra.music_lyric'),
@@ -437,18 +421,17 @@ const MusicExtraList = () => {
           return await onSubmit(values);
         }}
       >
-        <ProFormSelect
+        <ProFormText
           name="music_id"
           label={t('music_extra.music_id')}
-          placeholder={t('table.please_select', {
+          placeholder={t('table.please_enter', {
             name: t('music_extra.music_id'),
           })}
           width="xl"
-          valueEnum={{}}
           rules={[
             {
               required: true,
-              message: t('table.please_select', {
+              message: t('table.please_enter', {
                 name: t('music_extra.music_id'),
               }),
             },

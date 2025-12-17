@@ -15,5 +15,10 @@
   "invalid_format": "{{name}} format is invalid",
   "please_enter": "Please enter {{name}}",
   "please_select": "Please select {{name}}",
-  "please_upload": "Please upload {{name}}"
+  "please_upload": "Please upload {{name}}",
+  "batch_restore": "Batch Restore",
+  "restore": "Restore {{name}}",
+  "restore_tips": "Are you sure you want to restore the selected {{name}}?",
+  "restore_success": "Restore successful!",
+  "restore_error": "Restore error!"
 }

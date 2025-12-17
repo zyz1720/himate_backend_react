@@ -22,7 +22,7 @@ import {
   ProFormSegmented,
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, Image, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -46,8 +46,9 @@ import {
   addFavorites,
 } from '@/api/pages/favorites';
 import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
+import { FileTypeEnum, FileUseTypeEnum } from '@/constants/database_enum';
+
+const THUMBNAIL_URL = import.meta.env.VITE_THUMBNAIL_URL;
 
 const FavoritesList = () => {
   const { message, modal } = App.useApp();
@@ -74,6 +75,29 @@ const FavoritesList = () => {
       sorter: true,
     },
     {
+      title: t('favorites.favorites_name'),
+      dataIndex: 'favorites_name',
+      key: 'favorites_name',
+      valueType: 'text',
+      width: 120,
+    },
+    {
+      title: t('favorites.favorites_cover'),
+      dataIndex: 'favorites_cover',
+      key: 'favorites_cover',
+      hideInSearch: true,
+      width: 120,
+      render: (value) => <Image width={60} src={THUMBNAIL_URL + value} />,
+    },
+    {
+      title: t('favorites.is_public'),
+      dataIndex: 'is_public',
+      key: 'is_public',
+      valueType: 'select',
+      width: 120,
+      valueEnum: whetherStatusEnum,
+    },
+    {
       title: t('favorites.favorites_remarks'),
       dataIndex: 'favorites_remarks',
       key: 'favorites_remarks',
@@ -81,6 +105,21 @@ const FavoritesList = () => {
       hideInSearch: true,
       ellipsis: true,
       width: 120,
+    },
+    {
+      title: t('favorites.is_default'),
+      dataIndex: 'is_default',
+      key: 'is_default',
+      valueType: 'select',
+      width: 120,
+      valueEnum: whetherStatusEnum,
+    },
+    {
+      title: t('favorites.favorites_uid'),
+      dataIndex: 'favorites_uid',
+      key: 'favorites_uid',
+      valueType: 'text',
+      width: 80,
     },
     {
       title: t('favorites.create_time'),
@@ -107,7 +146,9 @@ const FavoritesList = () => {
       dataIndex: 'create_by',
       key: 'create_by',
       valueType: 'select',
+      hideInTable: true,
       hideInForm: true,
+      hideInSearch: true,
       width: 120,
     },
     {
@@ -130,37 +171,6 @@ const FavoritesList = () => {
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },
-    {
-      title: t('favorites.favorites_name'),
-      dataIndex: 'favorites_name',
-      key: 'favorites_name',
-      valueType: 'text',
-      width: 120,
-    },
-    {
-      title: t('favorites.favorites_cover'),
-      dataIndex: 'favorites_cover',
-      key: 'favorites_cover',
-      valueType: 'image',
-      hideInSearch: true,
-      width: 120,
-    },
-    {
-      title: t('favorites.is_public'),
-      dataIndex: 'is_public',
-      key: 'is_public',
-      valueType: 'select',
-      width: 120,
-      valueEnum: whetherStatusEnum,
-    },
-    {
-      title: t('favorites.is_default'),
-      dataIndex: 'is_default',
-      key: 'is_default',
-      valueType: 'select',
-      width: 120,
-      valueEnum: whetherStatusEnum,
     },
     {
       title: t('table.action'),
@@ -417,18 +427,18 @@ const FavoritesList = () => {
           return await onSubmit(values);
         }}
       >
-        <ProFormTextArea
-          name="favorites_remarks"
-          label={t('favorites.favorites_remarks')}
+        <ProFormDigit
+          name="favorites_uid"
+          label={t('favorites.favorites_uid')}
           placeholder={t('table.please_enter', {
-            name: t('favorites.favorites_remarks'),
+            name: t('favorites.favorites_uid'),
           })}
           width="xl"
           rules={[
             {
-              required: false,
+              required: true,
               message: t('table.please_enter', {
-                name: t('favorites.favorites_remarks'),
+                name: t('favorites.favorites_uid'),
               }),
             },
           ]}
@@ -461,13 +471,33 @@ const FavoritesList = () => {
             },
           ]}
           fieldProps={{
-            customRequest: uploadCustomRequest,
-            // 自定义显示已上传的文件
+            customRequest: (fileInfo) =>
+              uploadCustomRequest({
+                ...fileInfo,
+                file_type: FileTypeEnum.image,
+                use_type: FileUseTypeEnum.user,
+              }),
             showUploadList: {
               showRemoveIcon: true,
               showPreviewIcon: true,
             },
           }}
+        />
+        <ProFormTextArea
+          name="favorites_remarks"
+          label={t('favorites.favorites_remarks')}
+          placeholder={t('table.please_enter', {
+            name: t('favorites.favorites_remarks'),
+          })}
+          width="xl"
+          rules={[
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('favorites.favorites_remarks'),
+              }),
+            },
+          ]}
         />
         <ProFormSelect
           name="is_public"

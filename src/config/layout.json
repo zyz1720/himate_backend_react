@@ -12,7 +12,8 @@
     "/messages/session",
     "/messages/message",
     "/messages/message_read_records",
-    "/file",
+    "/file/files",
+    "/file/recycle_bin",
     "/songs/music",
     "/songs/music_extra",
     "/songs/favorites"

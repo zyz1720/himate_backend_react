@@ -1,0 +1,16 @@
+{
+  "table_name": "Music Favorites",
+  "menu_name": "Music Favorites",
+  "id": "File auto-increment id",
+  "favorites_remarks": "Favorites description",
+  "create_time": "Creation time",
+  "update_time": "Update time",
+  "create_by": "Creator id",
+  "update_by": "Modifier id",
+  "delete_time": "Deletion time",
+  "favorites_name": "Favorites name",
+  "favorites_cover": "Favorites cover",
+  "is_public": "Is public",
+  "is_default": "Is default favorites",
+  "favorites_uid": "Favorites uid"
+}

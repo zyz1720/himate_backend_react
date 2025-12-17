@@ -1,0 +1,14 @@
+{
+  "table_name": "App Version",
+  "menu_name": "App Management",
+  "id": "App package auto-increment id",
+  "file_id": "File id",
+  "create_time": "Creation time",
+  "update_time": "Update time",
+  "create_by": "Creator id",
+  "update_by": "Modifier id",
+  "delete_time": "Deletion time",
+  "app_name": "App package name",
+  "app_version": "App version",
+  "app_description": "App description"
+}

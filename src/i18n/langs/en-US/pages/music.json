@@ -1,0 +1,19 @@
+{
+  "table_name": "Music",
+  "menu_name": "Music Management",
+  "id": "Music auto-increment id",
+  "sample_rate": "Sample rate",
+  "bitrate": "Bitrate",
+  "duration": "Music duration",
+  "artists": "Music artist collection",
+  "create_time": "Creation time",
+  "update_time": "Update time",
+  "music_extra_id": "Music extra info id",
+  "create_by": "Creator id",
+  "update_by": "Modifier id",
+  "delete_time": "Deletion time",
+  "file_key": "File key",
+  "title": "Music name",
+  "artist": "Music artist",
+  "album": "Album name"
+}

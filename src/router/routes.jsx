@@ -14,6 +14,7 @@ import {
   BsMusicNoteList,
   BsFileEarmarkMusicFill,
   BsFileEarmarkMusic,
+  BsFillTrash2Fill,
 } from 'react-icons/bs';
 
 import i18n from 'i18next';
@@ -175,8 +176,28 @@ export default [
     path: '/file',
     key: 'file',
     name: i18n.t('file.menu_name'),
-    element: React.createElement(React.lazy(() => import('@/pages/file/File'))),
     icon: <AiFillFolderOpen />,
+    redirect: '/file/files',
+    routes: [
+      {
+        path: '/file/files',
+        key: 'files',
+        name: i18n.t('file.menu_name'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/file/File')),
+        ),
+        icon: <AiFillFolderOpen />,
+      },
+      {
+        path: '/file/recycle_bin',
+        key: 'recycle_bin',
+        name: i18n.t('file.recycle_bin'),
+        element: React.createElement(
+          React.lazy(() => import('@/pages/file/RecycleBin')),
+        ),
+        icon: <BsFillTrash2Fill />,
+      },
+    ],
   },
   {
     path: '/songs',

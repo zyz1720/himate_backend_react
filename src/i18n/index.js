@@ -1,9 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { useStatusStore } from '@/stores/statusStore';
+import { useSettingStore } from '@/stores/settingStore';
 import { loadLangs } from '@/utils/common/i18n_util';
 
-const locale = useStatusStore.getState().locale;
+const locale = useSettingStore.getState().locale;
 const resources = loadLangs();
 
 i18n.use(initReactI18next).init({

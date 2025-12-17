@@ -1,7 +1,7 @@
 import instance from '@/utils/request/axios_instance';
 
 /* 获取用户列表 */
-export const getUserlist = (params) => instance.get('user', { params: params });
+export const getUserList = (params) => instance.get('user', { params: params });
 
 /* 获取用户详情 */
 export const getUserDetail = (id) => instance.get(`user/${id}`);

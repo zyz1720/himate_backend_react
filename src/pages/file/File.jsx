@@ -1,28 +1,13 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
   ProFormDigit,
-  ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
   ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
   ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented, 
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -30,6 +15,7 @@ import {
   FormOutlined,
   DeleteOutlined,
   PlusOutlined,
+  UploadOutlined,
 } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import {
@@ -46,8 +32,6 @@ import {
   addFile,
 } from '@/api/pages/file';
 import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
 
 const FileList = () => {
   const { message, modal } = App.useApp();
@@ -55,111 +39,135 @@ const FileList = () => {
   const { t } = useTranslation();
 
   // 枚举值定义
-  
-    const fileTypeEnum = {image:{text:"图片",status:"Default"},video:{text:"视频",status:"Default"},audio:{text:"音频",status:"Default"},other:{text:"其它",status:"Default"},document:{text:"文档",status:"Default"}};
-    
-    const useTypeEnum = {user:{text:"用户使用",status:"Default"},chat:{text:"聊天使用",status:"Default"},group:{text:"群组使用",status:"Default"},system:{text:"系统使用",status:"Default"},music:{text:"音乐使用",status:"Default"},upload:{text:"临时上传",status:"Default"},unknown:{text:"未知",status:"Default"}};
-    
+  const fileTypeEnum = {
+    image: { text: '图片', status: 'Default' },
+    video: { text: '视频', status: 'Default' },
+    audio: { text: '音频', status: 'Default' },
+    other: { text: '其它', status: 'Default' },
+    document: { text: '文档', status: 'Default' },
+  };
+
+  const useTypeEnum = {
+    user: { text: '用户使用', status: 'Default' },
+    chat: { text: '聊天使用', status: 'Default' },
+    group: { text: '群组使用', status: 'Default' },
+    system: { text: '系统使用', status: 'Default' },
+    music: { text: '音乐使用', status: 'Default' },
+    upload: { text: '临时上传', status: 'Default' },
+    unknown: { text: '未知', status: 'Default' },
+  };
 
   const columns = [
     {
       title: t('file.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInDescriptions: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('file.file_type'),
       dataIndex: 'file_type',
       key: 'file_type',
-      valueType:'select',
+      valueType: 'select',
       width: 120,
       filters: true,
       onFilter: true,
       valueEnum: fileTypeEnum,
-    },{
+    },
+    {
       title: t('file.use_type'),
       dataIndex: 'use_type',
       key: 'use_type',
-      valueType:'select',
+      valueType: 'select',
       width: 120,
       filters: true,
       onFilter: true,
       valueEnum: useTypeEnum,
-    },{
+    },
+    {
       title: t('file.file_hash'),
       dataIndex: 'file_hash',
       key: 'file_hash',
-      valueType:'text',
+      valueType: 'text',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
-    },{
-      title: t('file.create_time'),
-      dataIndex: 'create_time',
-      key: 'create_time',
-      valueType:'dateTime',
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
-      title: t('file.create_by'),
-      dataIndex: 'create_by',
-      key: 'create_by',
-      valueType:'digit',
-      hideInTable: true,
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-    },{
-      title: t('file.update_by'),
-      dataIndex: 'update_by',
-      key: 'update_by',
-      valueType:'digit',
-      hideInTable: true,
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
-      title: t('file.update_time'),
-      dataIndex: 'update_time',
-      key: 'update_time',
-      valueType:'dateTime',
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
-      title: t('file.delete_time'),
-      dataIndex: 'delete_time',
-      key: 'delete_time',
-      valueType:'dateTime',
-      hideInTable: true,
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
+    },
+
+    {
       title: t('file.file_key'),
       dataIndex: 'file_key',
       key: 'file_key',
-      valueType:'text',
+      valueType: 'text',
+      copyable: true,
       width: 120,
-    },{
+    },
+    {
       title: t('file.file_size'),
       dataIndex: 'file_size',
       key: 'file_size',
-      valueType:'digit',
+      valueType: 'digit',
       hideInSearch: true,
       width: 120,
+    },
+    {
+      title: t('file.create_time'),
+      dataIndex: 'create_time',
+      key: 'create_time',
+      valueType: 'dateTime',
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+    {
+      title: t('file.create_by'),
+      dataIndex: 'create_by',
+      key: 'create_by',
+      valueType: 'digit',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+    },
+    {
+      title: t('file.update_by'),
+      dataIndex: 'update_by',
+      key: 'update_by',
+      valueType: 'digit',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+    {
+      title: t('file.update_time'),
+      dataIndex: 'update_time',
+      key: 'update_time',
+      valueType: 'dateTime',
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+    {
+      title: t('file.delete_time'),
+      dataIndex: 'delete_time',
+      key: 'delete_time',
+      valueType: 'dateTime',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
     },
     {
       title: t('table.action'),
@@ -204,7 +212,9 @@ const FileList = () => {
           >
             <Popconfirm
               title={t('table.delete', { name: t('file.table_name') })}
-              description={t('table.delete_tips', { name: t('file.table_name') })}
+              description={t('table.delete_tips', {
+                name: t('file.table_name'),
+              })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
               }}
@@ -310,13 +320,20 @@ const FileList = () => {
       }
     } catch (error) {
       console.error('Error fetching File detail:', error);
-      message.error(t('table.get_details_error', { name: t('file.table_name') }));
+      message.error(
+        t('table.get_details_error', { name: t('file.table_name') }),
+      );
     }
   };
 
   const tableRef = useRef();
   const formRef = useRef();
   const isReset = useRef(false);
+
+  const uploadFormRef = useRef();
+  const [fileType, setFileType] = useState(null);
+  const [useType, setUseType] = useState(null);
+  const [uploadModalVisible, setUploadModalVisible] = useState(false);
 
   return (
     <>
@@ -363,7 +380,9 @@ const FileList = () => {
               onClick={() => {
                 modal.confirm({
                   title: t('table.batch_delete'),
-                  content: t('table.batch_delete_tips', { name: t('file.table_name') }),
+                  content: t('table.batch_delete_tips', {
+                    name: t('file.table_name'),
+                  }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
                   },
@@ -373,20 +392,120 @@ const FileList = () => {
               {t('table.batch_delete')}
             </Button>
           ) : (
-            <Button
-              key="add"
-              variant="outlined"
-              color="primary"
-              icon={<PlusOutlined />}
-              onClick={() => {
-                addData();
-              }}
-            >
-              {t('table.add', { name: t('file.table_name') })}
-            </Button>
+            <div className="flex gap-4">
+              <Button
+                key="add"
+                variant="solid"
+                color="blue"
+                icon={<UploadOutlined />}
+                onClick={() => {
+                  setUploadModalVisible(true);
+                }}
+              >
+                {t('file.upload')}
+              </Button>
+              <Button
+                key="add"
+                variant="outlined"
+                color="primary"
+                icon={<PlusOutlined />}
+                onClick={() => {
+                  addData();
+                }}
+              >
+                {t('table.add', { name: t('file.table_name') })}
+              </Button>
+            </div>
           ),
         ]}
       />
+      {/* 上传文件弹窗： */}
+      <ModalForm
+        key={'upload'}
+        formRef={uploadFormRef}
+        labelWidth="auto"
+        title={t('file.upload')}
+        open={uploadModalVisible}
+        submitter={{
+          render: () => [],
+        }}
+        onOpenChange={(visible) => {
+          setUploadModalVisible(visible);
+          if (!visible) {
+            uploadFormRef.current?.resetFields();
+            setFileType(null);
+            setUseType(null);
+          }
+        }}
+      >
+        <ProFormSelect
+          name="file_type"
+          label={t('file.file_type')}
+          placeholder={t('table.please_select', {
+            name: t('file.file_type'),
+          })}
+          width="xl"
+          valueEnum={fileTypeEnum}
+          onChange={(value) => {
+            setFileType(value);
+          }}
+          rules={[
+            {
+              required: false,
+              message: t('table.please_select', {
+                name: t('file.file_type'),
+              }),
+            },
+          ]}
+        />
+        <ProFormSelect
+          name="use_type"
+          label={t('file.use_type')}
+          placeholder={t('table.please_select', {
+            name: t('file.use_type'),
+          })}
+          width="xl"
+          valueEnum={useTypeEnum}
+          onChange={(value) => {
+            setUseType(value);
+          }}
+          rules={[
+            {
+              required: false,
+              message: t('table.please_select', {
+                name: t('file.use_type'),
+              }),
+            },
+          ]}
+        />
+        {fileType && useType ? (
+          <ProFormUploadButton
+            name="file"
+            label={t('file.table_name')}
+            max={1}
+            rules={[
+              {
+                required: false,
+                message: t('table.please_upload', {
+                  name: t('file.table_name'),
+                }),
+              },
+            ]}
+            fieldProps={{
+              customRequest: (fileInfo) =>
+                uploadCustomRequest({
+                  ...fileInfo,
+                  file_type: fileType,
+                  use_type: useType,
+                }),
+              showUploadList: {
+                showRemoveIcon: true,
+                showPreviewIcon: true,
+              },
+            }}
+          />
+        ) : null}
+      </ModalForm>
       {/* 新增/编辑弹窗： */}
       <ModalForm
         key={currentRow?.id + 'handle'}
@@ -419,9 +538,12 @@ const FileList = () => {
           width="xl"
           valueEnum={fileTypeEnum}
           rules={[
-            { required: false, message: t('table.please_select', {
-              name: t('file.file_type'),
-            }) }
+            {
+              required: false,
+              message: t('table.please_select', {
+                name: t('file.file_type'),
+              }),
+            },
           ]}
         />
         <ProFormSelect
@@ -433,9 +555,12 @@ const FileList = () => {
           width="xl"
           valueEnum={useTypeEnum}
           rules={[
-            { required: false, message: t('table.please_select', {
-              name: t('file.use_type'),
-            }) }
+            {
+              required: false,
+              message: t('table.please_select', {
+                name: t('file.use_type'),
+              }),
+            },
           ]}
         />
         <ProFormText
@@ -446,9 +571,12 @@ const FileList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('file.file_key'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('file.file_key'),
+              }),
+            },
           ]}
         />
         <ProFormDigit
@@ -459,12 +587,14 @@ const FileList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('file.file_size'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('file.file_size'),
+              }),
+            },
           ]}
         />
-        
       </ModalForm>
       {/* 详情弹窗： */}
       <ModalForm

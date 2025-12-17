@@ -1,7 +1,7 @@
 import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useUserStore } from '@/stores/userStore';
-import { useStatusStore } from '@/stores/statusStore';
+import { useSettingStore } from '@/stores/settingStore';
 import { useLayoutStore } from '@/stores/layoutStore';
 import { hasRouteAccess } from '@/utils/common/layout_util';
 import { ConfigProvider, App, theme } from 'antd';
@@ -36,7 +36,7 @@ const renderRoutes = (routes) => {
 
 // 路由拦截器高阶组件
 const AuthGuard = ({ children }) => {
-  const { userToken, tokenType } = useUserStore();
+  const { isLogin } = useUserStore();
   const { routesConfig } = useLayoutStore();
 
   const whiteList = ['/login', '/notfound'];
@@ -55,12 +55,12 @@ const AuthGuard = ({ children }) => {
   }
 
   // 已登录但没有访问权限，重定向到404页面
-  if (userToken && tokenType && !notRequiredAuth && !canAccessRoutes) {
+  if (isLogin && !notRequiredAuth && !canAccessRoutes) {
     return <Navigate to="/notfound" replace />;
   }
 
   // 未登录或在白名单中，允许访问
-  return (userToken && tokenType) || notRequiredAuth ? (
+  return isLogin || notRequiredAuth ? (
     <Suspense fallback={<FullscreenLoading />}>{children}</Suspense>
   ) : (
     <Navigate to="/login" replace state={pathname} />
@@ -68,15 +68,22 @@ const AuthGuard = ({ children }) => {
 };
 
 function Root() {
-  const { locale } = useStatusStore();
+  const { locale } = useSettingStore();
   const { i18n } = useTranslation();
   const { settingConfig } = useLayoutStore();
+  const { isLogin, setUserInfo } = useUserStore();
   const isDarkMode = settingConfig?.navTheme === 'realDark';
 
   useEffect(() => {
     i18n.changeLanguage(locale);
     dayjs.locale(dayjsLocaleMap[locale]);
   }, [i18n, locale]);
+
+  useEffect(() => {
+    if (isLogin) {
+      setUserInfo();
+    }
+  }, [isLogin]);
 
   return (
     <ConfigProvider

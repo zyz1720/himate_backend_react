@@ -1,28 +1,13 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
   ProFormDigit,
   ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
   ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented, 
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -45,9 +30,6 @@ import {
   updateMate,
   addMate,
 } from '@/api/pages/mate';
-import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
 
 const MateList = () => {
   const { message, modal } = App.useApp();
@@ -55,116 +37,131 @@ const MateList = () => {
   const { t } = useTranslation();
 
   // 枚举值定义
-  
-    const mateStatusEnum = {agreed:{text:"已同意",status:"Success"},waiting:{text:"待通过",status:"Processing"},refused:{text:"已拒绝",status:"Error"}};
-    
+
+  const mateStatusEnum = {
+    agreed: { text: '已同意', status: 'Success' },
+    waiting: { text: '待通过', status: 'Processing' },
+    refused: { text: '已拒绝', status: 'Error' },
+  };
 
   const columns = [
     {
       title: t('mate.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInDescriptions: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('mate.mate_id'),
       dataIndex: 'mate_id',
       key: 'mate_id',
-      valueType:'text',
+      valueType: 'text',
       width: 120,
-    },{
+    },
+    {
       title: t('mate.user_id'),
       dataIndex: 'user_id',
       key: 'user_id',
-      valueType:'digit',
+      valueType: 'digit',
       width: 120,
-    },{
+    },
+    {
       title: t('mate.user_remarks'),
       dataIndex: 'user_remarks',
       key: 'user_remarks',
-      valueType:'text',
+      valueType: 'text',
       hideInSearch: true,
-      width: 120,
-    },{
+      width: 140,
+    },
+    {
       title: t('mate.friend_id'),
       dataIndex: 'friend_id',
       key: 'friend_id',
-      valueType:'digit',
+      valueType: 'digit',
       width: 120,
-    },{
+    },
+    {
       title: t('mate.friend_remarks'),
       dataIndex: 'friend_remarks',
       key: 'friend_remarks',
-      valueType:'text',
+      valueType: 'text',
       hideInSearch: true,
-      width: 120,
-    },{
+      width: 140,
+    },
+    {
       title: t('mate.mate_status'),
       dataIndex: 'mate_status',
       key: 'mate_status',
-      valueType:'select',
-      width: 80,
+      valueType: 'select',
+      width: 100,
       filters: true,
       onFilter: true,
       valueEnum: mateStatusEnum,
-    },{
+    },
+    {
       title: t('mate.create_time'),
       dataIndex: 'create_time',
       key: 'create_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 160,
       sorter: true,
-    },{
+    },
+    {
       title: t('mate.update_time'),
       dataIndex: 'update_time',
       key: 'update_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 160,
       sorter: true,
-    },{
+    },
+    {
       title: t('mate.create_by'),
       dataIndex: 'create_by',
       key: 'create_by',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('mate.update_by'),
       dataIndex: 'update_by',
       key: 'update_by',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('mate.delete_time'),
       dataIndex: 'delete_time',
       key: 'delete_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('mate.validate_msg'),
       dataIndex: 'validate_msg',
       key: 'validate_msg',
-      valueType:'text',
+      valueType: 'text',
       hideInSearch: true,
       width: 200,
     },
@@ -211,7 +208,9 @@ const MateList = () => {
           >
             <Popconfirm
               title={t('table.delete', { name: t('mate.table_name') })}
-              description={t('table.delete_tips', { name: t('mate.table_name') })}
+              description={t('table.delete_tips', {
+                name: t('mate.table_name'),
+              })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
               }}
@@ -317,7 +316,9 @@ const MateList = () => {
       }
     } catch (error) {
       console.error('Error fetching Mate detail:', error);
-      message.error(t('table.get_details_error', { name: t('mate.table_name') }));
+      message.error(
+        t('table.get_details_error', { name: t('mate.table_name') }),
+      );
     }
   };
 
@@ -370,7 +371,9 @@ const MateList = () => {
               onClick={() => {
                 modal.confirm({
                   title: t('table.batch_delete'),
-                  content: t('table.batch_delete_tips', { name: t('mate.table_name') }),
+                  content: t('table.batch_delete_tips', {
+                    name: t('mate.table_name'),
+                  }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
                   },
@@ -425,9 +428,12 @@ const MateList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('mate.mate_id'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('mate.mate_id'),
+              }),
+            },
           ]}
         />
         <ProFormDigit
@@ -438,9 +444,12 @@ const MateList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('mate.user_id'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('mate.user_id'),
+              }),
+            },
           ]}
         />
         <ProFormText
@@ -451,9 +460,12 @@ const MateList = () => {
           })}
           width="xl"
           rules={[
-            { required: false, message: t('table.please_enter', {
-              name: t('mate.user_remarks'),
-            }) },
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('mate.user_remarks'),
+              }),
+            },
           ]}
         />
         <ProFormDigit
@@ -464,9 +476,12 @@ const MateList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('mate.friend_id'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('mate.friend_id'),
+              }),
+            },
           ]}
         />
         <ProFormText
@@ -477,9 +492,12 @@ const MateList = () => {
           })}
           width="xl"
           rules={[
-            { required: false, message: t('table.please_enter', {
-              name: t('mate.friend_remarks'),
-            }) },
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('mate.friend_remarks'),
+              }),
+            },
           ]}
         />
         <ProFormSelect
@@ -491,9 +509,12 @@ const MateList = () => {
           width="xl"
           valueEnum={mateStatusEnum}
           rules={[
-            { required: true, message: t('table.please_select', {
-              name: t('mate.mate_status'),
-            }) }
+            {
+              required: true,
+              message: t('table.please_select', {
+                name: t('mate.mate_status'),
+              }),
+            },
           ]}
         />
         <ProFormTextArea
@@ -504,12 +525,14 @@ const MateList = () => {
           })}
           width="xl"
           rules={[
-            { required: false, message: t('table.please_enter', {
-              name: t('mate.validate_msg'),
-            }) },
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('mate.validate_msg'),
+              }),
+            },
           ]}
         />
-        
       </ModalForm>
       {/* 详情弹窗： */}
       <ModalForm

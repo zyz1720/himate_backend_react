@@ -1,31 +1,58 @@
 import { persist } from 'zustand/middleware';
 import { create } from 'zustand';
 import { getUserInfo } from '@/api/app/user';
+import { refreshToken } from '@/api/auth/login';
+import { useLayoutStore } from './layoutStore';
 
-const store = (set) => ({
+const defaultState = {
   userToken: null,
   tokenType: null,
+  refreshToken: null,
   userInfo: {},
+  isLogin: false,
+};
+
+const store = (set) => ({
+  ...defaultState,
   setUserInfo: async () => {
     const response = await getUserInfo();
     if (response.code === 0) {
       const { data } = response || {};
-      return set((state) => ({ userInfo: data ?? state.userInfo }));
+      if (data?.user_role !== 'admin') {
+        useLayoutStore.getState().setUserRoutes();
+      }
+      return set((state) => ({ userInfo: data || state.userInfo }));
     }
   },
-  setUserToken: (token) => set(() => ({ userToken: token ?? null })),
-  setTokenType: (type) => set(() => ({ tokenType: type ?? null })),
+  login: (authInfo) => {
+    const { access_token, token_type, refresh_token } = authInfo || {};
+    set(() => ({
+      userToken: access_token || null,
+      tokenType: token_type || null,
+      refreshToken: refresh_token || null,
+      isLogin: true,
+    }));
+  },
+  refreshUserToken: async (token) => {
+    const response = await refreshToken({ refresh_token: token });
+    if (response.code === 0) {
+      const { access_token, token_type, refresh_token } = response || {};
+      set(() => ({
+        userToken: access_token || null,
+        tokenType: token_type || null,
+        refreshToken: refresh_token || null,
+      }));
+    } else {
+      set(() => defaultState);
+    }
+  },
   clearUserStore: () =>
     set(() => {
       localStorage.removeItem('userStore');
-      return { userToken: null, tokenType: null, userInfo: {} };
+      return defaultState;
     }),
 });
 
 const persistedStore = persist(store, { name: 'userStore' });
+
 export const useUserStore = create(persistedStore);
-
-// 在应用初始化时获取用户信息
-const { setUserInfo } = useUserStore.getState();
-
-setUserInfo();

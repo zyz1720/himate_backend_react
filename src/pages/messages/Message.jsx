@@ -1,28 +1,12 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
-  ProFormDigit,
   ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
   ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented, 
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -45,135 +29,151 @@ import {
   updateMessage,
   addMessage,
 } from '@/api/pages/message';
-import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
 
 const MessageList = () => {
   const { message, modal } = App.useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useTranslation();
 
-  // 枚举值定义
-  
-    const msgTypeEnum = {text:{text:"文本",status:"Default"},image:{text:"图片",status:"Success"},video:{text:"视频",status:"Success"},audio:{text:"音频",status:"Processing"},other:{text:"其它",status:"Error"}};
-    
-    const msgStatusEnum = {read:{text:"已读",status:"Success"},unread:{text:"未读",status:"Error"}};
-    
+  const msgTypeEnum = {
+    text: { text: '文本', status: 'Default' },
+    image: { text: '图片', status: 'Success' },
+    video: { text: '视频', status: 'Success' },
+    audio: { text: '音频', status: 'Processing' },
+    other: { text: '其它', status: 'Error' },
+  };
+
+  const msgStatusEnum = {
+    read: { text: '已读', status: 'Success' },
+    unread: { text: '未读', status: 'Error' },
+  };
 
   const columns = [
     {
       title: t('message.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInDescriptions: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message.client_msg_id'),
       dataIndex: 'client_msg_id',
       key: 'client_msg_id',
-      valueType:'text',
+      valueType: 'text',
       width: 120,
-    },{
+    },
+    {
       title: t('message.session_id'),
       dataIndex: 'session_id',
       key: 'session_id',
-      valueType:'select',
+      valueType: 'text',
       width: 120,
-    },{
+    },
+    {
       title: t('message.sender_id'),
       dataIndex: 'sender_id',
       key: 'sender_id',
-      valueType:'select',
+      valueType: 'text',
       width: 120,
-    },{
+    },
+    {
       title: t('message.sender_ip'),
       dataIndex: 'sender_ip',
       key: 'sender_ip',
-      valueType:'text',
+      valueType: 'text',
       width: 120,
       copyable: true,
-    },{
+    },
+    {
       title: t('message.content'),
       dataIndex: 'content',
       key: 'content',
-      valueType:'textarea',
+      valueType: 'textarea',
       hideInSearch: true,
       ellipsis: true,
       width: 120,
-    },{
+    },
+    {
       title: t('message.msg_type'),
       dataIndex: 'msg_type',
       key: 'msg_type',
-      valueType:'select',
+      valueType: 'select',
       width: 120,
       filters: true,
       onFilter: true,
       valueEnum: msgTypeEnum,
-    },{
+    },
+    {
       title: t('message.msg_status'),
       dataIndex: 'msg_status',
       key: 'msg_status',
-      valueType:'select',
+      valueType: 'select',
       width: 120,
       filters: true,
       onFilter: true,
       valueEnum: msgStatusEnum,
-    },{
+    },
+    {
       title: t('message.create_time'),
       dataIndex: 'create_time',
       key: 'create_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message.update_time'),
       dataIndex: 'update_time',
       key: 'update_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message.create_by'),
       dataIndex: 'create_by',
       key: 'create_by',
-      valueType:'digit',
+      valueType: 'digit',
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message.update_by'),
       dataIndex: 'update_by',
       key: 'update_by',
-      valueType:'digit',
+      valueType: 'digit',
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message.delete_time'),
       dataIndex: 'delete_time',
       key: 'delete_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message.msg_secret'),
       dataIndex: 'msg_secret',
       key: 'msg_secret',
-      valueType:'text',
+      valueType: 'text',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
@@ -222,7 +222,9 @@ const MessageList = () => {
           >
             <Popconfirm
               title={t('table.delete', { name: t('message.table_name') })}
-              description={t('table.delete_tips', { name: t('message.table_name') })}
+              description={t('table.delete_tips', {
+                name: t('message.table_name'),
+              })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
               }}
@@ -328,7 +330,9 @@ const MessageList = () => {
       }
     } catch (error) {
       console.error('Error fetching Message detail:', error);
-      message.error(t('table.get_details_error', { name: t('message.table_name') }));
+      message.error(
+        t('table.get_details_error', { name: t('message.table_name') }),
+      );
     }
   };
 
@@ -381,7 +385,9 @@ const MessageList = () => {
               onClick={() => {
                 modal.confirm({
                   title: t('table.batch_delete'),
-                  content: t('table.batch_delete_tips', { name: t('message.table_name') }),
+                  content: t('table.batch_delete_tips', {
+                    name: t('message.table_name'),
+                  }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
                   },
@@ -436,37 +442,44 @@ const MessageList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('message.client_msg_id'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('message.client_msg_id'),
+              }),
+            },
           ]}
         />
-        <ProFormSelect
+        <ProFormText
           name="session_id"
           label={t('message.session_id')}
-          placeholder={t('table.please_select', {
+          placeholder={t('table.please_enter', {
             name: t('message.session_id'),
           })}
           width="xl"
-          valueEnum={{}}
           rules={[
-            { required: true, message: t('table.please_select', {
-              name: t('message.session_id'),
-            }) }
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('message.session_id'),
+              }),
+            },
           ]}
         />
-        <ProFormSelect
+        <ProFormText
           name="sender_id"
           label={t('message.sender_id')}
-          placeholder={t('table.please_select', {
+          placeholder={t('table.please_enter', {
             name: t('message.sender_id'),
           })}
           width="xl"
-          valueEnum={{}}
           rules={[
-            { required: true, message: t('table.please_select', {
-              name: t('message.sender_id'),
-            }) }
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('message.sender_id'),
+              }),
+            },
           ]}
         />
         <ProFormText
@@ -477,9 +490,12 @@ const MessageList = () => {
           })}
           width="xl"
           rules={[
-            { required: false, message: t('table.please_enter', {
-              name: t('message.sender_ip'),
-            }) },
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('message.sender_ip'),
+              }),
+            },
           ]}
         />
         <ProFormTextArea
@@ -490,9 +506,12 @@ const MessageList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('message.content'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('message.content'),
+              }),
+            },
           ]}
         />
         <ProFormSelect
@@ -504,9 +523,12 @@ const MessageList = () => {
           width="xl"
           valueEnum={msgTypeEnum}
           rules={[
-            { required: false, message: t('table.please_select', {
-              name: t('message.msg_type'),
-            }) }
+            {
+              required: false,
+              message: t('table.please_select', {
+                name: t('message.msg_type'),
+              }),
+            },
           ]}
         />
         <ProFormSelect
@@ -518,12 +540,14 @@ const MessageList = () => {
           width="xl"
           valueEnum={msgStatusEnum}
           rules={[
-            { required: false, message: t('table.please_select', {
-              name: t('message.msg_status'),
-            }) }
+            {
+              required: false,
+              message: t('table.please_select', {
+                name: t('message.msg_status'),
+              }),
+            },
           ]}
         />
-        
       </ModalForm>
       {/* 详情弹窗： */}
       <ModalForm

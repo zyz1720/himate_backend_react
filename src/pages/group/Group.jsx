@@ -1,28 +1,12 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
-  ProFormDigit,
   ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
-  ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
   ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented, 
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, Image, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -46,8 +30,9 @@ import {
   addGroup,
 } from '@/api/pages/group';
 import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
+import { FileTypeEnum, FileUseTypeEnum } from '@/constants/database_enum';
+
+const STATIC_URL = import.meta.env.VITE_STATIC_URL;
 
 const GroupList = () => {
   const { message, modal } = App.useApp();
@@ -55,95 +40,110 @@ const GroupList = () => {
   const { t } = useTranslation();
 
   // 枚举值定义
-  
 
   const columns = [
     {
       title: t('group.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInDescriptions: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('group.group_id'),
       dataIndex: 'group_id',
       key: 'group_id',
-      valueType:'text',
+      valueType: 'text',
       width: 120,
       copyable: true,
-    },{
+    },
+    {
       title: t('group.group_name'),
       dataIndex: 'group_name',
       key: 'group_name',
-      valueType:'text',
+      valueType: 'text',
       width: 120,
-    },{
-      title: t('group.create_time'),
-      dataIndex: 'create_time',
-      key: 'create_time',
-      valueType:'dateTime',
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
-      title: t('group.update_time'),
-      dataIndex: 'update_time',
-      key: 'update_time',
-      valueType:'dateTime',
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
-      title: t('group.create_by'),
-      dataIndex: 'create_by',
-      key: 'create_by',
-      valueType:'digit',
-      hideInTable: true,
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
-      title: t('group.update_by'),
-      dataIndex: 'update_by',
-      key: 'update_by',
-      valueType:'digit',
-      hideInTable: true,
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
-      title: t('group.delete_time'),
-      dataIndex: 'delete_time',
-      key: 'delete_time',
-      valueType:'dateTime',
-      hideInTable: true,
-      hideInForm: true,
-      hideInSearch: true,
-      width: 120,
-      sorter: true,
-    },{
+    },
+
+    {
       title: t('group.group_avatar'),
       dataIndex: 'group_avatar',
       key: 'group_avatar',
-      valueType:'avatar',
       width: 120,
-    },{
+      render: (group_avatar) => (
+        <Image
+          src={`${STATIC_URL}${group_avatar}`}
+          alt={t('group.group_avatar')}
+          width={40}
+        />
+      ),
+    },
+    {
       title: t('group.group_introduce'),
       dataIndex: 'group_introduce',
       key: 'group_introduce',
-      valueType:'textarea',
+      valueType: 'textarea',
       hideInSearch: true,
       ellipsis: true,
       width: 120,
+    },
+    {
+      title: t('group.create_time'),
+      dataIndex: 'create_time',
+      key: 'create_time',
+      valueType: 'dateTime',
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+    {
+      title: t('group.update_time'),
+      dataIndex: 'update_time',
+      key: 'update_time',
+      valueType: 'dateTime',
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+    {
+      title: t('group.create_by'),
+      dataIndex: 'create_by',
+      key: 'create_by',
+      valueType: 'digit',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+    {
+      title: t('group.update_by'),
+      dataIndex: 'update_by',
+      key: 'update_by',
+      valueType: 'digit',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
+    },
+    {
+      title: t('group.delete_time'),
+      dataIndex: 'delete_time',
+      key: 'delete_time',
+      valueType: 'dateTime',
+      hideInTable: true,
+      hideInForm: true,
+      hideInSearch: true,
+      width: 120,
+      sorter: true,
     },
     {
       title: t('table.action'),
@@ -188,7 +188,9 @@ const GroupList = () => {
           >
             <Popconfirm
               title={t('table.delete', { name: t('group.table_name') })}
-              description={t('table.delete_tips', { name: t('group.table_name') })}
+              description={t('table.delete_tips', {
+                name: t('group.table_name'),
+              })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
               }}
@@ -294,7 +296,9 @@ const GroupList = () => {
       }
     } catch (error) {
       console.error('Error fetching Group detail:', error);
-      message.error(t('table.get_details_error', { name: t('group.table_name') }));
+      message.error(
+        t('table.get_details_error', { name: t('group.table_name') }),
+      );
     }
   };
 
@@ -347,7 +351,9 @@ const GroupList = () => {
               onClick={() => {
                 modal.confirm({
                   title: t('table.batch_delete'),
-                  content: t('table.batch_delete_tips', { name: t('group.table_name') }),
+                  content: t('table.batch_delete_tips', {
+                    name: t('group.table_name'),
+                  }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
                   },
@@ -402,9 +408,12 @@ const GroupList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('group.group_id'),
-            }) },
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('group.group_id'),
+              }),
+            },
           ]}
         />
         <ProFormText
@@ -415,22 +424,32 @@ const GroupList = () => {
           })}
           width="xl"
           rules={[
-            { required: false, message: t('table.please_enter', {
-              name: t('group.group_name'),
-            }) },
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('group.group_name'),
+              }),
+            },
           ]}
         />
         <ProFormUploadButton
           name="group_avatar_files"
           label={t('group.group_avatar')}
           rules={[
-            { required: false, message: t('table.please_upload', {
-              name: t('group.group_avatar'),
-            }) }
+            {
+              required: false,
+              message: t('table.please_upload', {
+                name: t('group.group_avatar'),
+              }),
+            },
           ]}
           fieldProps={{
-            customRequest: uploadCustomRequest,
-            // 自定义显示已上传的文件
+            customRequest: (fileInfo) =>
+              uploadCustomRequest({
+                ...fileInfo,
+                file_type: FileTypeEnum.image,
+                use_type: FileUseTypeEnum.user,
+              }),
             showUploadList: {
               showRemoveIcon: true,
               showPreviewIcon: true,
@@ -445,12 +464,14 @@ const GroupList = () => {
           })}
           width="xl"
           rules={[
-            { required: false, message: t('table.please_enter', {
-              name: t('group.group_introduce'),
-            }) },
+            {
+              required: false,
+              message: t('table.please_enter', {
+                name: t('group.group_introduce'),
+              }),
+            },
           ]}
         />
-        
       </ModalForm>
       {/* 详情弹窗： */}
       <ModalForm

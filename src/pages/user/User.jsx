@@ -7,7 +7,7 @@ import {
   ProFormUploadButton,
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, App } from 'antd';
+import { Button, Tooltip, Popconfirm, App, Image } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -23,7 +23,7 @@ import {
   onlyPageParams,
 } from '@/utils/common/object_util';
 import {
-  getUserlist,
+  getUserList,
   getUserDetail,
   deleteUser,
   updateUser,
@@ -31,6 +31,9 @@ import {
 } from '@/api/pages/user';
 import { uploadCustomRequest } from '@/utils/common/upload_util';
 import { formatWithFiles } from '@/utils/common/object_util';
+import { FileTypeEnum, FileUseTypeEnum } from '@/constants/database_enum';
+
+const STATIC_URL = import.meta.env.VITE_STATIC_URL;
 
 const UserList = () => {
   const { message, modal } = App.useApp();
@@ -81,9 +84,15 @@ const UserList = () => {
       title: t('user.user_avatar'),
       dataIndex: 'user_avatar',
       key: 'user_avatar',
-      valueType: 'avatar',
       hideInSearch: true,
       width: 80,
+      render: (user_avatar) => (
+        <Image
+          src={`${STATIC_URL}${user_avatar}`}
+          alt={t('user.user_avatar')}
+          width={40}
+        />
+      ),
     },
     {
       title: t('user.sex'),
@@ -281,7 +290,7 @@ const UserList = () => {
   // 初始化数据
   const dataInit = async (params) => {
     try {
-      const initRes = await getUserlist(params);
+      const initRes = await getUserList(params);
       if (initRes?.code !== 0) {
         return {};
       }
@@ -494,7 +503,12 @@ const UserList = () => {
             },
           ]}
           fieldProps={{
-            customRequest: uploadCustomRequest,
+            customRequest: (fileInfo) =>
+              uploadCustomRequest({
+                ...fileInfo,
+                file_type: FileTypeEnum.image,
+                use_type: FileUseTypeEnum.user,
+              }),
             // 自定义显示已上传的文件
             showUploadList: {
               showRemoveIcon: true,

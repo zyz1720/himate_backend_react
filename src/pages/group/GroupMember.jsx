@@ -1,28 +1,12 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
-  ProFormDigit,
-  ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
   ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented,
   ProDescriptions,
+  ProFormDigit,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -45,9 +29,6 @@ import {
   updateGroupMember,
   addGroupMember,
 } from '@/api/pages/group_member';
-import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
 
 const GroupMemberList = () => {
   const { message, modal } = App.useApp();
@@ -55,7 +36,6 @@ const GroupMemberList = () => {
   const { t } = useTranslation();
 
   // 枚举值定义
-
   const memberRoleEnum = {
     admin: { text: '管理员', status: 'Success' },
     owner: { text: '群主', status: 'Processing' },
@@ -92,7 +72,7 @@ const GroupMemberList = () => {
       title: t('group_member.user_id'),
       dataIndex: 'user_id',
       key: 'user_id',
-      valueType: 'select',
+      valueType: 'text',
       width: 120,
     },
     {
@@ -446,18 +426,17 @@ const GroupMemberList = () => {
             },
           ]}
         />
-        <ProFormSelect
+        <ProFormDigit
           name="user_id"
           label={t('group_member.user_id')}
-          placeholder={t('table.please_select', {
+          placeholder={t('table.please_enter', {
             name: t('group_member.user_id'),
           })}
           width="xl"
-          valueEnum={{}}
           rules={[
             {
               required: true,
-              message: t('table.please_select', {
+              message: t('table.please_enter', {
                 name: t('group_member.user_id'),
               }),
             },

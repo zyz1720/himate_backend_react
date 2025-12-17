@@ -1,0 +1,13 @@
+{
+  "table_name": "Sessions",
+  "menu_name": "Session Management",
+  "id": "Session auto-increment id",
+  "session_id": "Session id",
+  "last_msg_id": "Last message id",
+  "chat_type": "Session type",
+  "create_time": "Creation time",
+  "update_time": "Update time",
+  "create_by": "Creator id",
+  "update_by": "Modifier id",
+  "delete_time": "Deletion time"
+}

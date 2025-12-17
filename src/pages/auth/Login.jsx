@@ -27,7 +27,7 @@ function Login() {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
-  const { setUserToken, setTokenType, setUserInfo } = useUserStore();
+  const { login } = useUserStore();
   const { headerConfig } = useLayoutStore();
 
   const { token } = theme.useToken();
@@ -48,9 +48,7 @@ function Login() {
     try {
       const response = await loginTypeMap[loginType].func(values);
       if (response.code === 0) {
-        setUserToken(response.data?.access_token);
-        setTokenType(response.data?.token_type);
-        setUserInfo();
+        login(response.data);
         navigate('/welcome');
       }
       if (response.code === 0) {

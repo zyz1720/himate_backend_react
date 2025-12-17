@@ -1,0 +1,19 @@
+{
+  "table_name": "Files",
+  "menu_name": "File Management",
+  "id": "File auto-increment id",
+  "file_type": "File type",
+  "use_type": "Usage type",
+  "file_hash": "File hash",
+  "create_time": "Creation time",
+  "create_by": "Creator id",
+  "update_by": "Modifier id",
+  "update_time": "Update time",
+  "delete_time": "Deletion time",
+  "file_key": "File path",
+  "file_size": "File size",
+  "upload": "Upload file",
+  "recycle_bin": "Recycle Bin",
+  "restore": "Restore file",
+  "permanent_delete": "Permanent delete file"
+}

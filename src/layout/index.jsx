@@ -18,10 +18,12 @@ import { IoLanguage } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 import { useUserStore } from '@/stores/userStore';
 import { useLayoutStore } from '@/stores/layoutStore.js';
-import { useStatusStore } from '@/stores/statusStore';
+import { useSettingStore } from '@/stores/settingStore';
 import { useState, useEffect } from 'react';
 import { filterRoutes } from '@/utils/common/layout_util';
 import routes from '@/router/routes';
+
+const STATIC_URL = import.meta.env.VITE_STATIC_URL;
 
 function Main() {
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ function Main() {
     setSettingConfig,
   } = useLayoutStore();
   const { userInfo, clearUserStore } = useUserStore();
-  const { locale, setLocale } = useStatusStore();
+  const { locale, setLocale } = useSettingStore();
 
   const { pathname } = useLocation();
 
@@ -98,7 +100,9 @@ function Main() {
             route={{ path: '/', routes: _routes }}
             location={{ pathname }}
             avatarProps={{
-              src: userInfo?.user_avatar || headerConfig.logo,
+              src: userInfo?.user_avatar
+                ? STATIC_URL + userInfo?.user_avatar
+                : headerConfig.logo,
               title: userInfo?.user_name,
               render: (props, dom) => {
                 return (

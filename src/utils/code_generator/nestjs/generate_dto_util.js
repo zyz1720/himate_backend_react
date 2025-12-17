@@ -1,4 +1,4 @@
-import { toFirstUpperCase, toCamelCase } from '@/utils/common/string_util';
+import { toFirstUpperCase } from '@/utils/common/string_util';
 import { getTsType } from '@/utils/code_generator/common/generate_code_util';
 import { isEmptyObject } from '@/utils/common/object_util';
 

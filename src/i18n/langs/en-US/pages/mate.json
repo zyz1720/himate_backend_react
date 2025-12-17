@@ -1,0 +1,17 @@
+{
+  "table_name": "Friends",
+  "menu_name": "Friend Management",
+  "id": "Friend auto-increment id",
+  "mate_id": "Friend UUID",
+  "user_id": "User id",
+  "user_remarks": "Friend's remarks for user",
+  "friend_id": "Friend id",
+  "friend_remarks": "User's remarks for friend",
+  "mate_status": "Friend status",
+  "create_time": "Creation time",
+  "update_time": "Update time",
+  "create_by": "Creator id",
+  "update_by": "Modifier id",
+  "delete_time": "Deletion time",
+  "validate_msg": "Verification message"
+}

@@ -1,5 +1,6 @@
-import { message as AntDMessage } from 'antd';
 import { useUserStore } from '@/stores/userStore.js';
+import { useSettingStore } from '@/stores/settingStore.js';
+import { showErrorMessage } from '@/utils/common/message_utils.js';
 import axios from 'axios';
 import i18n from 'i18next';
 
@@ -7,18 +8,19 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 const apiPrefix = import.meta.env.VITE_API_PREFIX;
 
 const instance = axios.create({
-  // baseURL: baseUrl + apiPrefix,
+  baseURL: baseUrl + apiPrefix,
   timeout: 30000,
 });
 
 // 请求拦截器修改为接受store作为参数
 instance.interceptors.request.use(
   function (config) {
-    const tokenType = useUserStore.getState().tokenType;
-    const userToken = useUserStore.getState().userToken;
+    const { tokenType, userToken } = useUserStore.getState();
+    const { locale } = useSettingStore.getState();
     if (tokenType && userToken) {
       config.headers.Authorization = `${tokenType} ${userToken}`;
     }
+    config.headers['x-custom-lang'] = locale.split('-')[0];
     return config;
   },
   function (error) {
@@ -33,17 +35,17 @@ instance.interceptors.response.use(
     if (res.data.code === 0) {
       return res.data;
     } else {
-      AntDMessage.error(res.data.message);
+      showErrorMessage(res.data.message);
       return Promise.resolve(res.data);
     }
   },
   function (error) {
     console.error('axios error ' + error);
 
-    const clearUserStore = useUserStore.getState().clearUserStore;
+    const { refreshUserToken } = useUserStore.getState();
 
     let { message, response } = error;
-    
+
     let responseMsg = response?.data?.message;
 
     if (message == 'Network Error') {
@@ -55,14 +57,14 @@ instance.interceptors.response.use(
       const knownCodes = ['400', '401', '403', '404'];
 
       if (code == '401') {
-        clearUserStore();
+        refreshUserToken();
       }
       message = knownCodes.includes(code)
         ? i18n.t(`http.${code}`)
         : i18n.t('http.code', { code: code });
     }
 
-    AntDMessage.error(responseMsg || message);
+    showErrorMessage(responseMsg || message);
     return Promise.reject(error);
   },
 );

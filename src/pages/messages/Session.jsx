@@ -1,28 +1,12 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
   ProFormDigit,
-  ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
   ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented, 
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -45,9 +29,6 @@ import {
   updateSession,
   addSession,
 } from '@/api/pages/session';
-import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
 
 const SessionList = () => {
   const { message, modal } = App.useApp();
@@ -55,88 +36,98 @@ const SessionList = () => {
   const { t } = useTranslation();
 
   // 枚举值定义
-  
-    const chatTypeEnum = {personal:{text:"私聊",status:"Processing"},group:{text:"群聊",status:"Success"}};
-    
+
+  const chatTypeEnum = {
+    personal: { text: '私聊', status: 'Processing' },
+    group: { text: '群聊', status: 'Success' },
+  };
 
   const columns = [
     {
       title: t('session.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInDescriptions: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('session.session_id'),
       dataIndex: 'session_id',
       key: 'session_id',
-      valueType:'text',
+      valueType: 'text',
       width: 120,
-    },{
+    },
+    {
       title: t('session.last_msg_id'),
       dataIndex: 'last_msg_id',
       key: 'last_msg_id',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInSearch: true,
       width: 120,
-    },{
+    },
+    {
       title: t('session.chat_type'),
       dataIndex: 'chat_type',
       key: 'chat_type',
-      valueType:'select',
+      valueType: 'select',
       width: 80,
       filters: true,
       onFilter: true,
       valueEnum: chatTypeEnum,
-    },{
+    },
+    {
       title: t('session.create_time'),
       dataIndex: 'create_time',
       key: 'create_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 160,
       sorter: true,
-    },{
+    },
+    {
       title: t('session.update_time'),
       dataIndex: 'update_time',
       key: 'update_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 160,
       sorter: true,
-    },{
+    },
+    {
       title: t('session.create_by'),
       dataIndex: 'create_by',
       key: 'create_by',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('session.update_by'),
       dataIndex: 'update_by',
       key: 'update_by',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('session.delete_time'),
       dataIndex: 'delete_time',
       key: 'delete_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
@@ -186,7 +177,9 @@ const SessionList = () => {
           >
             <Popconfirm
               title={t('table.delete', { name: t('session.table_name') })}
-              description={t('table.delete_tips', { name: t('session.table_name') })}
+              description={t('table.delete_tips', {
+                name: t('session.table_name'),
+              })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
               }}
@@ -292,7 +285,9 @@ const SessionList = () => {
       }
     } catch (error) {
       console.error('Error fetching Session detail:', error);
-      message.error(t('table.get_details_error', { name: t('session.table_name') }));
+      message.error(
+        t('table.get_details_error', { name: t('session.table_name') }),
+      );
     }
   };
 
@@ -345,7 +340,9 @@ const SessionList = () => {
               onClick={() => {
                 modal.confirm({
                   title: t('table.batch_delete'),
-                  content: t('table.batch_delete_tips', { name: t('session.table_name') }),
+                  content: t('table.batch_delete_tips', {
+                    name: t('session.table_name'),
+                  }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
                   },
@@ -400,9 +397,12 @@ const SessionList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('session.session_id'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('session.session_id'),
+              }),
+            },
           ]}
         />
         <ProFormDigit
@@ -413,9 +413,12 @@ const SessionList = () => {
           })}
           width="xl"
           rules={[
-            { required: true, message: t('table.please_enter', {
-              name: t('session.last_msg_id'),
-            }) },
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('session.last_msg_id'),
+              }),
+            },
           ]}
         />
         <ProFormSelect
@@ -427,12 +430,14 @@ const SessionList = () => {
           width="xl"
           valueEnum={chatTypeEnum}
           rules={[
-            { required: true, message: t('table.please_select', {
-              name: t('session.chat_type'),
-            }) }
+            {
+              required: true,
+              message: t('table.please_select', {
+                name: t('session.chat_type'),
+              }),
+            },
           ]}
         />
-        
       </ModalForm>
       {/* 详情弹窗： */}
       <ModalForm

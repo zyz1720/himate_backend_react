@@ -1,0 +1,14 @@
+{
+  "table_name": "Groups",
+  "menu_name": "Group Management",
+  "id": "Group auto-increment id",
+  "group_id": "Group UUID",
+  "group_name": "Group name",
+  "create_time": "Creation time",
+  "update_time": "Update time",
+  "create_by": "Creator id",
+  "update_by": "Modifier id",
+  "delete_time": "Deletion time",
+  "group_avatar": "Group avatar",
+  "group_introduce": "Group introduction"
+}

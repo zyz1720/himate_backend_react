@@ -1,0 +1,18 @@
+{
+  "table_name": "Messages",
+  "menu_name": "Message Management",
+  "id": "Message auto-increment id",
+  "client_msg_id": "Client message id",
+  "session_id": "Associated session UUID",
+  "sender_id": "Sender id",
+  "sender_ip": "Sender IP",
+  "content": "Message content",
+  "msg_type": "Message type",
+  "msg_status": "Message status",
+  "create_time": "Creation time",
+  "update_time": "Update time",
+  "create_by": "Creator id",
+  "update_by": "Modifier id",
+  "delete_time": "Deletion time",
+  "msg_secret": "Message secret"
+}

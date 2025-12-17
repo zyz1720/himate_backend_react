@@ -1,28 +1,11 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
   ProFormDigit,
-  ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
-  ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented, 
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import { Button, Tooltip, Popconfirm, App } from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -45,9 +28,6 @@ import {
   updateMessageReadRecords,
   addMessageReadRecords,
 } from '@/api/pages/message_read_records';
-import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
 
 const MessageReadRecordsList = () => {
   const { message, modal } = App.useApp();
@@ -55,81 +35,88 @@ const MessageReadRecordsList = () => {
   const { t } = useTranslation();
 
   // 枚举值定义
-  
 
   const columns = [
     {
       title: t('message_read_records.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInDescriptions: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message_read_records.user_id'),
       dataIndex: 'user_id',
       key: 'user_id',
-      valueType:'select',
+      valueType: 'text',
       width: 120,
-    },{
+    },
+    {
       title: t('message_read_records.message_id'),
       dataIndex: 'message_id',
       key: 'message_id',
-      valueType:'select',
+      valueType: 'text',
       width: 120,
-    },{
+    },
+    {
       title: t('message_read_records.session_id'),
       dataIndex: 'session_id',
       key: 'session_id',
-      valueType:'select',
+      valueType: 'text',
       width: 120,
-    },{
+    },
+    {
       title: t('message_read_records.create_time'),
       dataIndex: 'create_time',
       key: 'create_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message_read_records.update_time'),
       dataIndex: 'update_time',
       key: 'update_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message_read_records.create_by'),
       dataIndex: 'create_by',
       key: 'create_by',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message_read_records.update_by'),
       dataIndex: 'update_by',
       key: 'update_by',
-      valueType:'digit',
+      valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
-    },{
+    },
+    {
       title: t('message_read_records.delete_time'),
       dataIndex: 'delete_time',
       key: 'delete_time',
-      valueType:'dateTime',
+      valueType: 'dateTime',
       hideInTable: true,
       hideInForm: true,
       hideInSearch: true,
@@ -160,7 +147,9 @@ const MessageReadRecordsList = () => {
           </Tooltip>,
           <Tooltip
             key="edit"
-            title={t('table.edit', { name: t('message_read_records.table_name') })}
+            title={t('table.edit', {
+              name: t('message_read_records.table_name'),
+            })}
           >
             <Button
               shape="circle"
@@ -175,11 +164,17 @@ const MessageReadRecordsList = () => {
           </Tooltip>,
           <Tooltip
             key="delete"
-            title={t('table.delete', { name: t('message_read_records.table_name') })}
+            title={t('table.delete', {
+              name: t('message_read_records.table_name'),
+            })}
           >
             <Popconfirm
-              title={t('table.delete', { name: t('message_read_records.table_name') })}
-              description={t('table.delete_tips', { name: t('message_read_records.table_name') })}
+              title={t('table.delete', {
+                name: t('message_read_records.table_name'),
+              })}
+              description={t('table.delete_tips', {
+                name: t('message_read_records.table_name'),
+              })}
               onConfirm={() => {
                 batchDeleteData([record?.id]);
               }}
@@ -285,7 +280,11 @@ const MessageReadRecordsList = () => {
       }
     } catch (error) {
       console.error('Error fetching MessageReadRecords detail:', error);
-      message.error(t('table.get_details_error', { name: t('message_read_records.table_name') }));
+      message.error(
+        t('table.get_details_error', {
+          name: t('message_read_records.table_name'),
+        }),
+      );
     }
   };
 
@@ -338,7 +337,9 @@ const MessageReadRecordsList = () => {
               onClick={() => {
                 modal.confirm({
                   title: t('table.batch_delete'),
-                  content: t('table.batch_delete_tips', { name: t('message_read_records.table_name') }),
+                  content: t('table.batch_delete_tips', {
+                    name: t('message_read_records.table_name'),
+                  }),
                   onOk: () => {
                     batchDeleteData(selectedRowKeys);
                   },
@@ -385,56 +386,63 @@ const MessageReadRecordsList = () => {
           return await onSubmit(values);
         }}
       >
-        <ProFormSelect
+        <ProFormDigit
           name="user_id"
           label={t('message_read_records.user_id')}
-          placeholder={t('table.please_select', {
+          placeholder={t('table.please_enter', {
             name: t('message_read_records.user_id'),
           })}
           width="xl"
-          valueEnum={{}}
           rules={[
-            { required: true, message: t('table.please_select', {
-              name: t('message_read_records.user_id'),
-            }) }
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('message_read_records.user_id'),
+              }),
+            },
           ]}
         />
-        <ProFormSelect
+        <ProFormDigit
           name="message_id"
           label={t('message_read_records.message_id')}
-          placeholder={t('table.please_select', {
+          placeholder={t('table.please_enter', {
             name: t('message_read_records.message_id'),
           })}
           width="xl"
-          valueEnum={{}}
           rules={[
-            { required: true, message: t('table.please_select', {
-              name: t('message_read_records.message_id'),
-            }) }
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('message_read_records.message_id'),
+              }),
+            },
           ]}
         />
-        <ProFormSelect
+        <ProFormText
           name="session_id"
           label={t('message_read_records.session_id')}
-          placeholder={t('table.please_select', {
+          placeholder={t('table.please_enter', {
             name: t('message_read_records.session_id'),
           })}
           width="xl"
-          valueEnum={{}}
           rules={[
-            { required: true, message: t('table.please_select', {
-              name: t('message_read_records.session_id'),
-            }) }
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('message_read_records.session_id'),
+              }),
+            },
           ]}
         />
-        
       </ModalForm>
       {/* 详情弹窗： */}
       <ModalForm
         key={currentRow?.id + 'view'}
         labelWidth="auto"
         disabled
-        title={t('table.details', { name: t('message_read_records.table_name') })}
+        title={t('table.details', {
+          name: t('message_read_records.table_name'),
+        })}
         open={viewModalVisible}
         onOpenChange={(visible) => {
           setViewModalVisible(visible);

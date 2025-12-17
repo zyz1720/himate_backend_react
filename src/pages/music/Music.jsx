@@ -93,6 +93,13 @@ const MusicList = () => {
       width: 120,
     },
     {
+      title: t('music.file_key'),
+      dataIndex: 'file_key',
+      key: 'file_key',
+      valueType: 'text',
+      width: 160,
+    },
+    {
       title: t('music.sample_rate'),
       dataIndex: 'sample_rate',
       key: 'sample_rate',
@@ -121,6 +128,8 @@ const MusicList = () => {
       dataIndex: 'artists',
       key: 'artists',
       valueType: 'jsonCode',
+      hideInTable: true,
+      hideInSearch: true,
       width: 120,
     },
 
@@ -186,13 +195,6 @@ const MusicList = () => {
       hideInTable: true,
       width: 120,
       sorter: true,
-    },
-    {
-      title: t('music.file_id'),
-      dataIndex: 'file_id',
-      key: 'file_id',
-      valueType: 'select',
-      width: 120,
     },
     {
       title: t('table.action'),
@@ -513,19 +515,18 @@ const MusicList = () => {
             },
           ]}
         />
-        <ProFormSelect
-          name="file_id"
-          label={t('music.file_id')}
-          placeholder={t('table.please_select', {
-            name: t('music.file_id'),
+        <ProFormText
+          name="file_key"
+          label={t('music.file_key')}
+          placeholder={t('table.please_enter', {
+            name: t('music.file_key'),
           })}
           width="xl"
-          valueEnum={{}}
           rules={[
             {
               required: true,
-              message: t('table.please_select', {
-                name: t('music.file_id'),
+              message: t('table.please_enter', {
+                name: t('music.file_key'),
               }),
             },
           ]}

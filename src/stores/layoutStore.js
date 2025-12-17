@@ -3,24 +3,18 @@ import { persist } from 'zustand/middleware';
 import { getLayoutConfig, getRoutesConfig } from '@/api/config';
 import layoutConfig from '@/config/layout';
 
-const { settingConfig, colorList, headerConfig, footerConfig, routesConfig } =
-  layoutConfig;
+const defaultState = layoutConfig;
 
 const store = (set) => ({
-  settingConfig: settingConfig,
-  colorList: colorList,
-  headerConfig: headerConfig,
-  footerConfig: footerConfig,
-  routesConfig: routesConfig,
+  ...defaultState,
   setSettingConfig: (config) =>
-    set((state) => ({ settingConfig: config ?? state.settingConfig })),
+    set((state) => ({ settingConfig: config || state.settingConfig })),
   setColorList: (config) =>
-    set((state) => ({ colorList: config ?? state.colorList })),
+    set((state) => ({ colorList: config || state.colorList })),
   setHeaderConfig: (config) =>
-    set((state) => ({ headerConfig: config ?? state.headerConfig })),
+    set((state) => ({ headerConfig: config || state.headerConfig })),
   setFooterConfig: (config) =>
-    set((state) => ({ footerConfig: config ?? state.footerConfig })),
-
+    set((state) => ({ footerConfig: config || state.footerConfig })),
   setLayoutConfig: async () => {
     const result = await getLayoutConfig();
     if (result?.code === 0) {
@@ -34,24 +28,22 @@ const store = (set) => ({
       }));
     }
   },
-
   setRoutesConfig: async () => {
     const result = await getRoutesConfig();
     if (result.code === 0) {
-      set((state) => ({ routesConfig: result?.data ?? state.routesConfig }));
+      set((state) => ({ routesConfig: result?.data || state.routesConfig }));
     }
   },
+  setUserRoutes: () =>
+    set(() => ({ routesConfig: defaultState.routesConfig.shift() })),
 });
 
 const persistedStore = persist(store, {
   name: 'layoutStore',
-  partialize: (state) => ({ settingConfig: state.settingConfig }),
+  partialize: (state) => ({
+    settingConfig: state.settingConfig,
+    routesConfig: state.routesConfig,
+  }),
 });
 
 export const useLayoutStore = create(persistedStore);
-
-// 在应用初始化时同时获取布局配置和菜单配置
-// const { setLayoutConfig, setRoutesConfig } = useLayoutStore.getState();
-
-// setLayoutConfig();
-// setRoutesConfig();
