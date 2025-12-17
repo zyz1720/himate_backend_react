@@ -1,4 +1,4 @@
-# HiMate React Backend
+# Himate React Backend
 
 Himate React Backend 是Himate项目的React后端管理系统，
 ## ✨ 特性
@@ -69,7 +69,7 @@ himate_react_backend/
 ### 安装依赖
 
 ```bash
-yarn install
+yarn
 ```
 
 ### 开发模式
