@@ -12,7 +12,7 @@ const defaultState = {
   isLogin: false,
 };
 
-const store = (set) => ({
+const store = (set, get) => ({
   ...defaultState,
   setUserInfo: async () => {
     const response = await getUserInfo();
@@ -33,16 +33,23 @@ const store = (set) => ({
       isLogin: true,
     }));
   },
-  refreshUserToken: async (token) => {
-    const response = await refreshToken({ refresh_token: token });
-    if (response.code === 0) {
-      const { access_token, token_type, refresh_token } = response || {};
-      set(() => ({
-        userToken: access_token || null,
-        tokenType: token_type || null,
-        refreshToken: refresh_token || null,
-      }));
-    } else {
+  refreshUserToken: async () => {
+    try {
+      const response = await refreshToken({
+        refresh_token: get().refreshToken,
+      });
+      if (response.code === 0) {
+        const { access_token, token_type, refresh_token } = response || {};
+        set(() => ({
+          userToken: access_token || null,
+          tokenType: token_type || null,
+          refreshToken: refresh_token || null,
+        }));
+      } else {
+        set(() => defaultState);
+      }
+    } catch (error) {
+      console.warn(error);
       set(() => defaultState);
     }
   },
