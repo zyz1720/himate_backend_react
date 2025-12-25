@@ -2,7 +2,7 @@ import {
   ProTable,
   ModalForm,
   ProFormText,
-  ProFormSelect,
+  ProFormDigit,
   ProFormTextArea,
   ProDescriptions,
 } from '@ant-design/pro-components';
@@ -79,7 +79,7 @@ const AppPackageList = () => {
       title: t('app_package.file_id'),
       dataIndex: 'file_id',
       key: 'file_id',
-      valueType: 'select',
+      valueType: 'digit',
       hideInSearch: true,
       width: 80,
     },
@@ -392,7 +392,7 @@ const AppPackageList = () => {
           return await onSubmit(values);
         }}
       >
-        <ProFormSelect
+        <ProFormDigit
           name="file_id"
           label={t('app_package.file_id')}
           placeholder={t('table.please_enter', {
@@ -402,7 +402,7 @@ const AppPackageList = () => {
           rules={[
             {
               required: true,
-              message: t('table.please_select', {
+              message: t('table.please_enter', {
                 name: t('app_package.file_id'),
               }),
             },
