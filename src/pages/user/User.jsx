@@ -64,7 +64,7 @@ const UserList = () => {
       title: t('user.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType: 'digit',
+      valueType: 'text',
       hideInTable: true,
       hideInForm: true,
       copyable: true,

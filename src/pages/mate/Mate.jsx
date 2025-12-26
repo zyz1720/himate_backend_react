@@ -49,7 +49,7 @@ const MateList = () => {
       title: t('mate.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType: 'digit',
+      valueType: 'text',
       hideInTable: true,
       hideInForm: true,
       copyable: true,

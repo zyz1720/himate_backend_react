@@ -46,7 +46,7 @@ const GroupList = () => {
       title: t('group.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType: 'digit',
+      valueType: 'text',
       hideInTable: true,
       hideInForm: true,
       copyable: true,

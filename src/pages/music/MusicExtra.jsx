@@ -44,7 +44,7 @@ const MusicExtraList = () => {
       title: t('music_extra.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType: 'digit',
+      valueType: 'text',
       hideInTable: true,
       hideInForm: true,
       hideInDescriptions: true,

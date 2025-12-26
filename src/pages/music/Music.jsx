@@ -61,7 +61,7 @@ const MusicList = () => {
       title: t('music.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType: 'digit',
+      valueType: 'text',
       hideInTable: true,
       hideInForm: true,
       copyable: true,

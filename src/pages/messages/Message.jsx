@@ -43,17 +43,12 @@ const MessageList = () => {
     other: { text: '其它', status: 'Error' },
   };
 
-  const msgStatusEnum = {
-    read: { text: '已读', status: 'Success' },
-    unread: { text: '未读', status: 'Error' },
-  };
-
   const columns = [
     {
       title: t('message.id'),
       dataIndex: 'id',
       key: 'id',
-      valueType: 'digit',
+      valueType: 'text',
       hideInTable: true,
       hideInForm: true,
       copyable: true,
