@@ -56,7 +56,7 @@ const MessageList = () => {
       valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
-      hideInDescriptions: true,
+      copyable: true,
       hideInSearch: true,
       width: 120,
       sorter: true,
@@ -69,9 +69,10 @@ const MessageList = () => {
       width: 120,
     },
     {
-      title: t('message.session_id'),
-      dataIndex: 'session_id',
-      key: 'session_id',
+      title: t('message.session_primary_id'),
+      dataIndex: 'session_primary_id',
+      key: 'session_primary_id',
+      copyable: true,
       valueType: 'text',
       width: 120,
     },
@@ -108,16 +109,6 @@ const MessageList = () => {
       filters: true,
       onFilter: true,
       valueEnum: msgTypeEnum,
-    },
-    {
-      title: t('message.msg_status'),
-      dataIndex: 'msg_status',
-      key: 'msg_status',
-      valueType: 'select',
-      width: 120,
-      filters: true,
-      onFilter: true,
-      valueEnum: msgStatusEnum,
     },
     {
       title: t('message.create_time'),
@@ -166,6 +157,7 @@ const MessageList = () => {
       valueType: 'dateTime',
       hideInForm: true,
       hideInSearch: true,
+      hideInTable: true,
       width: 120,
       sorter: true,
     },
@@ -451,17 +443,17 @@ const MessageList = () => {
           ]}
         />
         <ProFormText
-          name="session_id"
-          label={t('message.session_id')}
+          name="session_primary_id"
+          label={t('message.session_primary_id')}
           placeholder={t('table.please_enter', {
-            name: t('message.session_id'),
+            name: t('message.session_primary_id'),
           })}
           width="xl"
           rules={[
             {
               required: true,
               message: t('table.please_enter', {
-                name: t('message.session_id'),
+                name: t('message.session_primary_id'),
               }),
             },
           ]}
@@ -527,23 +519,6 @@ const MessageList = () => {
               required: false,
               message: t('table.please_select', {
                 name: t('message.msg_type'),
-              }),
-            },
-          ]}
-        />
-        <ProFormSelect
-          name="msg_status"
-          label={t('message.msg_status')}
-          placeholder={t('table.please_select', {
-            name: t('message.msg_status'),
-          })}
-          width="xl"
-          valueEnum={msgStatusEnum}
-          rules={[
-            {
-              required: false,
-              message: t('table.please_select', {
-                name: t('message.msg_status'),
               }),
             },
           ]}

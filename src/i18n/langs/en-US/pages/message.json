@@ -3,7 +3,7 @@
   "menu_name": "Message Management",
   "id": "Message auto-increment id",
   "client_msg_id": "Client message id",
-  "session_id": "Associated session UUID",
+  "session_primary_id": "Associated session id",
   "sender_id": "Sender id",
   "sender_ip": "Sender IP",
   "content": "Message content",

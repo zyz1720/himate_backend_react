@@ -64,13 +64,6 @@ const MessageReadRecordsList = () => {
       width: 120,
     },
     {
-      title: t('message_read_records.session_id'),
-      dataIndex: 'session_id',
-      key: 'session_id',
-      valueType: 'text',
-      width: 120,
-    },
-    {
       title: t('message_read_records.create_time'),
       dataIndex: 'create_time',
       key: 'create_time',
@@ -414,22 +407,6 @@ const MessageReadRecordsList = () => {
               required: true,
               message: t('table.please_enter', {
                 name: t('message_read_records.message_id'),
-              }),
-            },
-          ]}
-        />
-        <ProFormText
-          name="session_id"
-          label={t('message_read_records.session_id')}
-          placeholder={t('table.please_enter', {
-            name: t('message_read_records.session_id'),
-          })}
-          width="xl"
-          rules={[
-            {
-              required: true,
-              message: t('table.please_enter', {
-                name: t('message_read_records.session_id'),
               }),
             },
           ]}

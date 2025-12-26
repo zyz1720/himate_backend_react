@@ -55,7 +55,7 @@ const GroupMemberList = () => {
       valueType: 'digit',
       hideInTable: true,
       hideInForm: true,
-      hideInDescriptions: true,
+      copyable: true,
       hideInSearch: true,
       width: 120,
       sorter: true,

@@ -3,7 +3,7 @@
   "menu_name": "消息管理",
   "id": "消息自增id",
   "client_msg_id": "客户端消息id",
-  "session_id": "关联会话uuid",
+  "session_primary_id": "关联会话id",
   "sender_id": "发送方id",
   "sender_ip": "发送方ip",
   "content": "消息内容",
