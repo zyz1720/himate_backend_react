@@ -84,7 +84,6 @@ const MessageList = () => {
       key: 'sender_ip',
       valueType: 'text',
       width: 120,
-      copyable: true,
     },
     {
       title: t('message.content'),

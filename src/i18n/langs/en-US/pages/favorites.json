@@ -12,5 +12,6 @@
   "favorites_cover": "Favorites cover",
   "is_public": "Is public",
   "is_default": "Is default favorites",
-  "favorites_uid": "Favorites uid"
+  "favorites_uid": "Favorites uid",
+  "target": "Target favorites url"
 }

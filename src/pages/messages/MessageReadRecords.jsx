@@ -1,7 +1,6 @@
 import {
   ProTable,
   ModalForm,
-  ProFormText,
   ProFormDigit,
   ProDescriptions,
 } from '@ant-design/pro-components';

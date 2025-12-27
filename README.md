@@ -158,7 +158,7 @@ yarn lint
 
 ### API 配置
 
-API 配置位于 `src/api/config.js`，可以配置 API 基础路径和请求拦截器。
+API 配置位于 `src/api/config.js`，用于获取项目布局配置和路由配置。
 
 ### 开源协议
 

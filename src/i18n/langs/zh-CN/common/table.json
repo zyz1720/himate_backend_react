@@ -20,5 +20,7 @@
     "restore": "恢复{{name}}",
     "restore_tips": "您确定要恢复选中的{{name}}吗？",
     "restore_success": "恢复成功！",
-    "restore_error": "恢复出错！"
+    "restore_error": "恢复出错！",
+    "sync": "同步{{name}}",
+    "search": "搜索"
 }

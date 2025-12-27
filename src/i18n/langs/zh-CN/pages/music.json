@@ -8,12 +8,21 @@
   "artists": "音乐艺术家集合",
   "create_time": "创建时间",
   "update_time": "更新时间",
-  "music_extra_id": "音乐额外信息id",
+  "music_extra_id": "额外id",
   "create_by": "创建者id",
   "update_by": "修改者id",
   "delete_time": "删除时间",
   "file_key": "文件key",
   "title": "音乐名称",
   "artist": "音乐艺术家",
-  "album": "专辑名"
+  "album": "专辑名",
+  "match_extra": "匹配额外信息",
+  "match_extra_id": "match_id",
+  "match_extra_title": "标题",
+  "match_extra_artist": "艺术家",
+  "match_extra_album": "专辑",
+  "match_extra_cover": "封面",
+  "match_extra_word": "匹配关键词",
+  "confirm_match_extra": "确认匹配该条额外信息吗？",
+  "extra_id": "额外信息id"
 }

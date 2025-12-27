@@ -82,7 +82,14 @@ const FileList = () => {
       hideInSearch: true,
       width: 120,
     },
-
+    {
+      title: t('file.original_file_name'),
+      dataIndex: 'original_file_name',
+      key: 'original_file_name',
+      valueType: 'text',
+      hideInSearch: true,
+      width: 120,
+    },
     {
       title: t('file.file_key'),
       dataIndex: 'file_key',
@@ -334,7 +341,7 @@ const FileList = () => {
               </Button>
               <Button
                 key="batchRestore"
-                variant='solid'
+                variant="solid"
                 color="green"
                 onClick={() => {
                   modal.confirm({

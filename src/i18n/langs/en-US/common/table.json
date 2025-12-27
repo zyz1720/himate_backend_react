@@ -20,5 +20,7 @@
   "restore": "Restore {{name}}",
   "restore_tips": "Are you sure you want to restore the selected {{name}}?",
   "restore_success": "Restore successful!",
-  "restore_error": "Restore error!"
+  "restore_error": "Restore error!",
+  "sync": "Sync {{name}}",
+  "search": "Search"
 }

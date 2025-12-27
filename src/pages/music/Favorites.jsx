@@ -1,25 +1,11 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
   ProFormDigit,
   ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
   ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
   ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented,
   ProDescriptions,
 } from '@ant-design/pro-components';
 import { Button, Tooltip, Popconfirm, Image, App } from 'antd';
@@ -30,6 +16,7 @@ import {
   FormOutlined,
   DeleteOutlined,
   PlusOutlined,
+  SyncOutlined,
 } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import {
@@ -44,6 +31,7 @@ import {
   deleteFavorites,
   updateFavorites,
   addFavorites,
+  syncFavorites,
 } from '@/api/pages/favorites';
 import { uploadCustomRequest } from '@/utils/common/upload_util';
 import { FileTypeEnum, FileUseTypeEnum } from '@/constants/database_enum';
@@ -87,7 +75,12 @@ const FavoritesList = () => {
       key: 'favorites_cover',
       hideInSearch: true,
       width: 120,
-      render: (value) => <Image width={60} src={THUMBNAIL_URL + value} />,
+      render: (value) => (
+        <Image
+          width={60}
+          src={value != '-' ? THUMBNAIL_URL + value : './music_cover.jpg'}
+        />
+      ),
     },
     {
       title: t('favorites.is_public'),
@@ -256,6 +249,7 @@ const FavoritesList = () => {
 
   const [handleModalVisible, setHandleModalVisible] = useState(false);
   const [viewModalVisible, setViewModalVisible] = useState(false);
+  const [syncModalVisible, setSyncModalVisible] = useState(false);
   const [currentRow, setCurrentRow] = useState({});
 
   // 新建逻辑
@@ -329,8 +323,24 @@ const FavoritesList = () => {
     }
   };
 
+  // 同步收藏夹逻辑
+  const syncFavoritesFunc = async (values) => {
+    try {
+      const syncRes = await syncFavorites(values);
+      message.open({
+        type: syncRes.code === 0 ? 'success' : 'error',
+        content: syncRes.message,
+      });
+      return true;
+    } catch (error) {
+      console.error('Error syncing Favorites:', error);
+      return false;
+    }
+  };
+
   const tableRef = useRef();
   const formRef = useRef();
+  const syncFormRef = useRef();
   const isReset = useRef(false);
 
   return (
@@ -390,17 +400,30 @@ const FavoritesList = () => {
               {t('table.batch_delete')}
             </Button>
           ) : (
-            <Button
-              key="add"
-              variant="outlined"
-              color="primary"
-              icon={<PlusOutlined />}
-              onClick={() => {
-                addData();
-              }}
-            >
-              {t('table.add', { name: t('favorites.table_name') })}
-            </Button>
+            <div className="space-x-4">
+              <Button
+                key="sync"
+                variant="outlined"
+                color="blue"
+                icon={<SyncOutlined />}
+                onClick={() => {
+                  setSyncModalVisible(true);
+                }}
+              >
+                {t('table.sync', { name: t('favorites.table_name') })}
+              </Button>
+              <Button
+                key="add"
+                variant="outlined"
+                color="primary"
+                icon={<PlusOutlined />}
+                onClick={() => {
+                  addData();
+                }}
+              >
+                {t('table.add', { name: t('favorites.table_name') })}
+              </Button>
+            </div>
           ),
         ]}
       />
@@ -529,6 +552,40 @@ const FavoritesList = () => {
               required: false,
               message: t('table.please_select', {
                 name: t('favorites.is_default'),
+              }),
+            },
+          ]}
+        />
+      </ModalForm>
+      {/* 同步弹窗： */}
+      <ModalForm
+        key={'sync'}
+        ref={syncFormRef}
+        labelWidth="auto"
+        title={t('table.sync', { name: t('favorites.table_name') })}
+        open={syncModalVisible}
+        onOpenChange={(visible) => {
+          setSyncModalVisible(visible);
+          if (!visible) {
+            syncFormRef.current?.resetFields();
+          }
+        }}
+        onFinish={async (values) => {
+          return await syncFavoritesFunc(values);
+        }}
+      >
+        <ProFormText
+          name="target"
+          label={t('favorites.target')}
+          placeholder={t('table.please_enter', {
+            name: t('favorites.target'),
+          })}
+          width="xl"
+          rules={[
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('favorites.target'),
               }),
             },
           ]}

@@ -1,28 +1,23 @@
 import {
   ProTable,
   ModalForm,
-  ProForm,
   ProFormText,
   ProFormDigit,
   ProFormTextArea,
-  ProFormCaptcha,
-  ProFormDatePicker,
-  ProFormDateTimePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimeRangePicker,
-  ProFormSelect,
-  ProFormTreeSelect,
-  ProFormCheckbox,
-  ProFormRadio,
-  ProFormSlider,
-  ProFormSwitch,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormMoney,
-  ProFormSegmented,
   ProDescriptions,
 } from '@ant-design/pro-components';
-import { Button, Tooltip, Popconfirm, Tag, App } from 'antd';
+import {
+  Button,
+  Tooltip,
+  Popconfirm,
+  App,
+  Modal,
+  Table,
+  Form,
+  Input,
+  Image,
+  Descriptions,
+} from 'antd';
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import {
@@ -30,6 +25,7 @@ import {
   FormOutlined,
   DeleteOutlined,
   PlusOutlined,
+  RetweetOutlined,
 } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import {
@@ -44,10 +40,9 @@ import {
   deleteMusic,
   updateMusic,
   addMusic,
+  matchMusicExtra,
+  getMatchMusicExtraList,
 } from '@/api/pages/music';
-import { uploadCustomRequest } from '@/utils/common/upload_util';
-import RichText from '@/components/common/RichText';
-import HTMLContainer from '@/components/common/HTMLContainer';
 
 const MusicList = () => {
   const { message, modal } = App.useApp();
@@ -100,6 +95,15 @@ const MusicList = () => {
       width: 160,
     },
     {
+      title: t('music.music_extra_id'),
+      dataIndex: 'music_extra_id',
+      key: 'music_extra_id',
+      valueType: 'select',
+      hideInForm: true,
+      hideInSearch: true,
+      width: 60,
+    },
+    {
       title: t('music.sample_rate'),
       dataIndex: 'sample_rate',
       key: 'sample_rate',
@@ -129,17 +133,6 @@ const MusicList = () => {
       key: 'artists',
       valueType: 'jsonCode',
       hideInTable: true,
-      hideInSearch: true,
-      width: 120,
-    },
-
-    {
-      title: t('music.music_extra_id'),
-      dataIndex: 'music_extra_id',
-      key: 'music_extra_id',
-      valueType: 'select',
-      hideInTable: true,
-      hideInForm: true,
       hideInSearch: true,
       width: 120,
     },
@@ -199,7 +192,7 @@ const MusicList = () => {
     {
       title: t('table.action'),
       valueType: 'option',
-      width: 120,
+      width: 175,
       hideInDescriptions: true,
       fixed: 'right',
       render: (_, record) => {
@@ -207,6 +200,22 @@ const MusicList = () => {
           return [];
         }
         return [
+          <Tooltip key="view" title={t('music.match_extra')}>
+            <Button
+              variant="solid"
+              color="green"
+              shape="circle"
+              icon={<RetweetOutlined />}
+              onClick={async () => {
+                setMatchWord(record?.title);
+                setCurrentRow(record);
+                getMatchExtraList({
+                  word: record?.title,
+                });
+                setMatchExtraVisible(true);
+              }}
+            />
+          </Tooltip>,
           <Tooltip key="view" title={t('table.view_details')}>
             <Button
               type="primary"
@@ -280,7 +289,11 @@ const MusicList = () => {
 
   const [handleModalVisible, setHandleModalVisible] = useState(false);
   const [viewModalVisible, setViewModalVisible] = useState(false);
+  const [matchExtraVisible, setMatchExtraVisible] = useState('');
   const [currentRow, setCurrentRow] = useState({});
+  const [matchExtraList, setMatchExtraList] = useState([]);
+  const [matchWord, setMatchWord] = useState('');
+  const [matchListLoading, setMatchListLoading] = useState(false);
 
   // 新建逻辑
   const addData = async () => {
@@ -350,6 +363,39 @@ const MusicList = () => {
       message.error(
         t('table.get_details_error', { name: t('music.table_name') }),
       );
+    }
+  };
+
+  // 匹配音乐扩展信息列表逻辑
+  const getMatchExtraList = async (params) => {
+    try {
+      setMatchListLoading(true);
+      const matchRes = await getMatchMusicExtraList(params);
+      if (matchRes.code === 0) {
+        setMatchExtraList(matchRes.data || []);
+      }
+    } catch (error) {
+      console.error('Error fetching Match Music Extra list:', error);
+    } finally {
+      setMatchListLoading(false);
+    }
+  };
+
+  // 匹配音乐扩展信息逻辑
+  const matchExtra = async (id) => {
+    try {
+      const matchRes = await matchMusicExtra({
+        musicId: currentRow?.id,
+        matchId: String(id),
+      });
+      message.open({
+        type: matchRes.code === 0 ? 'success' : 'error',
+        content: matchRes.message,
+      });
+    } catch (error) {
+      console.error('Error matching Music Extra:', error);
+    } finally {
+      tableRef.current.reload();
     }
   };
 
@@ -602,6 +648,132 @@ const MusicList = () => {
           columns={columns}
         ></ProDescriptions>
       </ModalForm>
+      <Modal
+        width={'90%'}
+        title={t('music.match_extra')}
+        open={matchExtraVisible}
+        onOk={() => setMatchExtraVisible(false)}
+        onCancel={() => setMatchExtraVisible(false)}
+        footer={null}
+      >
+        <div className="max-w-2xl my-4">
+          <Form.Item
+            label={t('music.match_extra_word')}
+            rules={[
+              {
+                required: true,
+                message: t('table.please_enter', {
+                  name: t('music.match_extra_word'),
+                }),
+              },
+            ]}
+          >
+            <Input.Search
+              value={matchWord}
+              enterButton={t('table.search')}
+              onSearch={(value) => {
+                setMatchWord(value);
+                getMatchExtraList({ word: value });
+              }}
+            />
+          </Form.Item>
+        </div>
+        <div className="mb-4">
+          <Descriptions
+            title={t('music.table_name')}
+            bordered
+            column={2}
+            items={[
+              {
+                key: 'title',
+                label: t('music.title'),
+                children: currentRow?.title,
+              },
+              {
+                key: 'artist',
+                label: t('music.artist'),
+                children: currentRow?.artist,
+              },
+              {
+                key: 'album',
+                label: t('music.album'),
+                children: currentRow?.album,
+              },
+              {
+                key: 'music_extra_id',
+                label: t('music.extra_id'),
+                children: currentRow?.music_extra_id,
+              },
+            ]}
+          />
+        </div>
+
+        <Table
+          scroll={{ x: 1300 }}
+          loading={matchListLoading}
+          columns={[
+            {
+              title: t('music.match_extra_id'),
+              dataIndex: 'id',
+              key: 'id',
+              width: 50,
+            },
+            {
+              title: t('music.match_extra_cover'),
+              dataIndex: 'cover',
+              key: 'cover',
+              width: 50,
+              render: (cover) => (
+                <Image
+                  src={cover}
+                  width={50}
+                  height={50}
+                  alt={t('music.match_extra_cover')}
+                />
+              ),
+            },
+            {
+              title: t('music.match_extra_title'),
+              dataIndex: 'title',
+              key: 'title',
+              width: 160,
+            },
+            {
+              title: t('music.match_extra_album'),
+              dataIndex: 'album',
+              key: 'album',
+              width: 160,
+            },
+            {
+              title: t('music.match_extra_artist'),
+              dataIndex: 'artist',
+              key: 'artist',
+              width: 160,
+            },
+            {
+              title: t('table.action'),
+              dataIndex: 'action',
+              key: 'action',
+              width: 40,
+              fixed: 'right',
+              render: (_, record) => (
+                <Popconfirm
+                  title={t('music.confirm_match_extra')}
+                  onConfirm={() => matchExtra(record.id)}
+                >
+                  <Button
+                    variant="solid"
+                    color="green"
+                    shape="circle"
+                    icon={<RetweetOutlined />}
+                  />
+                </Popconfirm>
+              ),
+            },
+          ]}
+          dataSource={matchExtraList}
+        />
+      </Modal>
     </>
   );
 };

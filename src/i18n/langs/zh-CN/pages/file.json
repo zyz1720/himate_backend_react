@@ -13,6 +13,7 @@
   "file_key": "文件路径",
   "file_size": "文件大小",
   "upload": "上传文件",
+  "original_file_name": "原始文件名",
   "recycle_bin": "回收站",
   "restore": "恢复文件",
   "permanent_delete": "永久删除文件"

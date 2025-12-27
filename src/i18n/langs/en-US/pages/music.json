@@ -8,12 +8,21 @@
   "artists": "Music artist collection",
   "create_time": "Creation time",
   "update_time": "Update time",
-  "music_extra_id": "Music extra info id",
+  "music_extra_id": "Extra info id",
   "create_by": "Creator id",
   "update_by": "Modifier id",
   "delete_time": "Deletion time",
   "file_key": "File key",
   "title": "Music name",
   "artist": "Music artist",
-  "album": "Album name"
+  "album": "Album name",
+  "match_extra": "Match extra info",
+  "match_extra_id": "match_id",
+  "match_extra_title": "Title",
+  "match_extra_artist": "Artist",
+  "match_extra_album": "Album",
+  "match_extra_cover": "Cover",
+  "match_extra_word": "Match keyword",
+  "confirm_match_extra": "Confirm match this extra info?",
+  "extra_id": "Extra info id"
 }

@@ -91,6 +91,14 @@ const FileList = () => {
       valueEnum: useTypeEnum,
     },
     {
+      title: t('file.original_file_name'),
+      dataIndex: 'original_file_name',
+      key: 'original_file_name',
+      valueType: 'text',
+      hideInSearch: true,
+      width: 120,
+    },
+    {
       title: t('file.file_hash'),
       dataIndex: 'file_hash',
       key: 'file_hash',
@@ -575,6 +583,22 @@ const FileList = () => {
               required: true,
               message: t('table.please_enter', {
                 name: t('file.file_key'),
+              }),
+            },
+          ]}
+        />
+        <ProFormText
+          name="original_file_name"
+          label={t('file.original_file_name')}
+          placeholder={t('table.please_enter', {
+            name: t('file.original_file_name'),
+          })}
+          width="xl"
+          rules={[
+            {
+              required: true,
+              message: t('table.please_enter', {
+                name: t('file.original_file_name'),
               }),
             },
           ]}

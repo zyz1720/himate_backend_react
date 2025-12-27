@@ -36,9 +36,8 @@ const SessionList = () => {
   const { t } = useTranslation();
 
   // 枚举值定义
-
   const chatTypeEnum = {
-    personal: { text: '私聊', status: 'Processing' },
+    private: { text: '私聊', status: 'Processing' },
     group: { text: '群聊', status: 'Success' },
   };
 
@@ -59,6 +58,7 @@ const SessionList = () => {
       title: t('session.session_id'),
       dataIndex: 'session_id',
       key: 'session_id',
+      copyable: true,
       valueType: 'text',
       width: 120,
     },
