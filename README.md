@@ -1,3 +1,5 @@
+<a href="./README.EN.md" >English</a> | <a href="./README.md" >简体中文</a>
+
 # Himate React Backend
 
 Himate React Backend 是Himate项目的React后端管理系统，

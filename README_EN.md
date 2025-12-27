@@ -1,3 +1,5 @@
+<a href="./README.EN.md" >English</a> | <a href="./README.md" >简体中文</a>
+
 # Himate React Backend
 
 Himate React Backend is the React-based backend management system for the Himate project.
