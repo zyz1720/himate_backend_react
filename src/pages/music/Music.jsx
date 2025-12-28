@@ -49,8 +49,6 @@ const MusicList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useTranslation();
 
-  // 枚举值定义
-
   const columns = [
     {
       title: t('music.id'),
@@ -289,11 +287,12 @@ const MusicList = () => {
 
   const [handleModalVisible, setHandleModalVisible] = useState(false);
   const [viewModalVisible, setViewModalVisible] = useState(false);
-  const [matchExtraVisible, setMatchExtraVisible] = useState('');
+  const [matchExtraVisible, setMatchExtraVisible] = useState(false);
   const [currentRow, setCurrentRow] = useState({});
   const [matchExtraList, setMatchExtraList] = useState([]);
   const [matchWord, setMatchWord] = useState('');
   const [matchListLoading, setMatchListLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // 新建逻辑
   const addData = async () => {
@@ -370,7 +369,10 @@ const MusicList = () => {
   const getMatchExtraList = async (params) => {
     try {
       setMatchListLoading(true);
-      const matchRes = await getMatchMusicExtraList(params);
+      const matchRes = await getMatchMusicExtraList({
+        ...params,
+        pageSize: 10,
+      });
       if (matchRes.code === 0) {
         setMatchExtraList(matchRes.data || []);
       }
@@ -395,6 +397,8 @@ const MusicList = () => {
     } catch (error) {
       console.error('Error matching Music Extra:', error);
     } finally {
+      setMatchExtraVisible(false);
+      setCurrentPage(1);
       tableRef.current.reload();
     }
   };
@@ -671,8 +675,10 @@ const MusicList = () => {
             <Input.Search
               value={matchWord}
               enterButton={t('table.search')}
+              onChange={(e) => {
+                setMatchWord(e.target.value);
+              }}
               onSearch={(value) => {
-                setMatchWord(value);
                 getMatchExtraList({ word: value });
               }}
             />
@@ -771,6 +777,18 @@ const MusicList = () => {
               ),
             },
           ]}
+          pagination={{
+            pageSize: 10,
+            total: 100,
+            current: currentPage,
+            onChange: (page) => {
+              setCurrentPage(page);
+              getMatchExtraList({
+                current: page,
+                word: matchWord,
+              });
+            },
+          }}
           dataSource={matchExtraList}
         />
       </Modal>
