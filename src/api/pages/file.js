@@ -16,7 +16,7 @@ export const updateFile = (id, data) => instance.put(`file/${id}`, data);
 export const deleteFile = (id) => instance.delete(`file/${id}`);
 
 /* 恢复文件 */
-export const restoreFile = (id) => instance.post(`file/${id}/restore`);
+export const restoreFile = (id) => instance.put(`file/${id}/restore`);
 
 /* 永久删除文件 */
 export const permanentDeleteFile = (id) => instance.delete(`file/${id}/force`);
