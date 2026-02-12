@@ -44,7 +44,7 @@ instance.interceptors.response.use(
 
     const { refreshUserToken } = useUserStore.getState();
 
-    let { message, response } = error;
+    let { message, response, status } = error;
 
     let responseMsg = response?.data?.message;
 
@@ -56,12 +56,13 @@ instance.interceptors.response.use(
       const code = message.substr(message.length - 3);
       const knownCodes = ['400', '401', '403', '404'];
 
-      if (code == '401') {
-        refreshUserToken();
-      }
       message = knownCodes.includes(code)
         ? i18n.t(`http.${code}`)
         : i18n.t('http.code', { code: code });
+    }
+    if (status == 401) {
+      refreshUserToken();
+      return Promise.reject(error);
     }
 
     showErrorMessage(responseMsg || message);

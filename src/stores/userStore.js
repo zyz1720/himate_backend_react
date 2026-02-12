@@ -39,12 +39,13 @@ const store = (set, get) => ({
         refresh_token: get().refreshToken,
       });
       if (response.code === 0) {
-        const { access_token, token_type, refresh_token } = response || {};
+        const { access_token, token_type, refresh_token } = response.data || {};
         set(() => ({
           userToken: access_token || null,
           tokenType: token_type || null,
           refreshToken: refresh_token || null,
         }));
+        window.location.reload();
       } else {
         set(() => defaultState);
       }
